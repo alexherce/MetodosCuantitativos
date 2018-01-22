@@ -1,0 +1,47 @@
+<html>
+<head>
+  <title>Simulaciones Loteria</title>
+</head>
+<body>
+  <h3>Numero de simulaciones: <span id="simulaciones"></span></h3>
+  <h3>Probabilidad de que gane el mismo numero: <span id="resEstatico"></span></h3>
+  <h3>Probabilidad de que gane el numero aleatorio: <span id="resRandom"></span></h3>
+
+  <script>
+
+    var totalRandom = 0;
+    var totalEstatico = 0;
+
+    var loteriaNumero = Math.floor(Math.random() * 50000);
+
+    // VALORES PARA CONFIGURAR
+    var nSimulaciones = 50000;
+    var nSimulaciones2 = 5000;
+    var miNumeroEstatico = 1494;
+
+    for(var j = 0; j < nSimulaciones2; j++) {
+      var ganadorRandom = 0;
+      var ganadorEstatico = 0;
+
+      for(var i = 0; i < nSimulaciones; i++) {
+        var miNumeroRandom = Math.floor(Math.random() * 50000);
+
+        if(miNumeroRandom == loteriaNumero) {
+          ganadorRandom++;
+        } else if (miNumeroEstatico == loteriaNumero) {
+          ganadorEstatico++;
+        }
+        loteriaNumero = Math.floor(Math.random() * 50000);
+      }
+      totalRandom += ganadorRandom;
+      totalEstatico += ganadorEstatico;
+    }
+
+    console.log("Ganados numero estatico: " + totalEstatico);
+    console.log("Ganados numero random: " + totalRandom);
+    document.getElementById("simulaciones").innerHTML = nSimulaciones * nSimulaciones2;
+    document.getElementById("resEstatico").innerHTML = totalEstatico/(nSimulaciones * nSimulaciones2);
+    document.getElementById("resRandom").innerHTML = totalRandom/(nSimulaciones * nSimulaciones2);
+  </script>
+</body>
+</html>

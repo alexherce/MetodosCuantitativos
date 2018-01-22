@@ -1,0 +1,96 @@
+<html>
+<head>
+  <title>Simulaciones Ventas Telefonicas</title>
+</head>
+<body>
+  <h3>Numero de simulaciones: <span id="simulaciones"></span></h3>
+  <h3>Total comisiones: $<span id="comisiones"></span></h3>
+  <h3>Numero ventas hombres (5000, 10000, 15000, 20000): <span id="ventas_hombres"></span></h3>
+  <h3>Total ventas hombres: <span id="total_ventas_hombres"></span></h3>
+  <h3>Numero ventas mujeres (5000, 10000, 15000): <span id="ventas_mujeres"></span></h3>
+  <h3>Total ventas mujeres: <span id="total_ventas_mujeres"></span></h3>
+  <h3>Comisiones/Ventas: <span id="comisiones_ventas"></span></h3>
+
+  <script>
+    var totalComisiones = 0;
+    var numeroVentas = 0;
+    var numeroVentasHombres = new Array(4).fill(0);
+    var numeroVentasMujeres = new Array(3).fill(0);
+    var totalVentasHombres = 0;
+    var totalVentasMujeres = 0;
+
+    // VALORES PARA CONFIGURAR
+    var nSimulaciones = 5000;
+
+    for(var i = 0; i < nSimulaciones; i++) {
+      var probabilidadContestarLlamada = Math.random();
+
+      if(probabilidadContestarLlamada <= 0.3) {
+        var probabilidadMujer = Math.random();
+
+        if(probabilidadMujer <= 0.8) {
+          var probabilidadVenta = Math.random();
+
+          if(probabilidadVenta <= 0.15) {
+            var probabilidadCredito = Math.random();
+
+            if(probabilidadCredito <= 0.6) {
+              totalComisiones += 200;
+              numeroVentasMujeres[0] = numeroVentasMujeres[0] + 1;
+              numeroVentas++;
+              totalVentasMujeres++;
+            } else if(probabilidadCredito > 0.6 && probabilidadCredito <= 0.9) {
+              totalComisiones += 400;
+              numeroVentasMujeres[1] = numeroVentasMujeres[1] + 1;
+              numeroVentas++;
+              totalVentasMujeres++;
+            } else if(probabilidadCredito > 0.9 && probabilidadCredito <= 1) {
+              totalComisiones += 600;
+              numeroVentasMujeres[2] = numeroVentasMujeres[2] + 1;
+              numeroVentas++;
+              totalVentasMujeres++;
+            }
+          }
+        } else {
+          var probabilidadVenta = Math.random();
+
+          if (probabilidadVenta <= 0.25) {
+            var probabilidadCredito = Math.random();
+
+            if(probabilidadCredito <= 0.1) {
+              totalComisiones += 200;
+              numeroVentasHombres[0] = numeroVentasHombres[0] + 1;
+              numeroVentas++;
+              totalVentasHombres++;
+            } else if(probabilidadCredito > 0.1 && probabilidadCredito <= 0.5) {
+              totalComisiones += 400;
+              numeroVentasHombres[1] = numeroVentasHombres[1] + 1;
+              numeroVentas++;
+              totalVentasHombres++;
+            } else if(probabilidadCredito > 0.5 && probabilidadCredito <= 0.8) {
+              totalComisiones += 600;
+              numeroVentasHombres[2] = numeroVentasHombres[2] + 1;
+              numeroVentas++;
+              totalVentasHombres++;
+            } else if(probabilidadCredito > 0.8 && probabilidadCredito <= 1) {
+              totalComisiones += 800;
+              numeroVentasHombres[3] = numeroVentasHombres[3] + 1;
+              numeroVentas++;
+              totalVentasHombres++;
+            }
+          }
+        }
+      }
+    }
+
+    console.log("Comisiones totales: " + totalComisiones);
+    document.getElementById("simulaciones").innerHTML = nSimulaciones;
+    document.getElementById("comisiones").innerHTML = totalComisiones;
+    document.getElementById("ventas_hombres").innerHTML = numeroVentasHombres.toString();
+    document.getElementById("ventas_mujeres").innerHTML = numeroVentasMujeres.toString();
+    document.getElementById("total_ventas_hombres").innerHTML = totalVentasHombres;
+    document.getElementById("total_ventas_mujeres").innerHTML = totalVentasMujeres;
+    document.getElementById("comisiones_ventas").innerHTML = totalComisiones/numeroVentas;
+  </script>
+</body>
+</html>

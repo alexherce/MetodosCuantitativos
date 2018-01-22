@@ -1,0 +1,37 @@
+<html>
+<head>
+  <title>Simulaciones Redondeo</title>
+</head>
+<body>
+  <h2>Promedio que paga el cliente <span id="res"></span></h2>
+
+  <script>
+    var cliente = 0;
+    var vendedor = 0;
+    var totalCliente = 0;
+
+    // VALORES PARA CONFIGURAR
+    var nSimulaciones = 5000;
+    var precioMenor = 99;
+    var precioMayor = 100;
+    var probabilidad = 0.2;
+
+    for(var i = 0; i < nSimulaciones; i++) {
+      var rand = Math.random();
+      if(rand >= probabilidad) {
+        cliente++;
+        totalCliente += precioMenor;
+      } else {
+        vendedor++;
+        totalCliente += precioMayor;
+      }
+    }
+    console.log("Cliente gana: " + cliente);
+    console.log("Vendedor gana: " + vendedor);
+    console.log("Probabilidad de que sea 100: " + vendedor/nSimulaciones);
+    console.log("Probabilidad de que sea 99: " + cliente/nSimulaciones);
+    console.log("Promedio cliente: " + totalCliente/nSimulaciones);
+    document.getElementById("res").innerHTML = totalCliente/nSimulaciones;
+  </script>
+</body>
+</html>

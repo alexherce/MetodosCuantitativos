@@ -1,0 +1,79 @@
+<html>
+<head>
+  <title>Simulaciones Tortas</title>
+</head>
+<body>
+  <h3>Numero de simulaciones: <span id="simulaciones"></span></h3>
+  <h3>Ganancia comprando 1 docena: <span id="docena1"></span></h3>
+  <h3>Ganancia comprando 2 docenas: <span id="docena2"></span></h3>
+  <h3>Ganancia comprando 3 docenas: <span id="docena3"></span></h3>
+  <h3>Ganancia comprando 4 docenas: <span id="docena4"></span></h3>
+  <h3>Ganancia comprando 5 docenas: <span id="docena5"></span></h3>
+  <h3>Ganancia comprando 6 docenas: <span id="docena6"></span></h3>
+
+  <script>
+
+    var numeroGanancias = new Array(6).fill(0);
+    var numeroPerdidas = new Array(6).fill(0);
+    var dinero = new Array(6).fill(0);
+
+    // VALORES PARA CONFIGURAR
+    var nSimulaciones = 5000;
+
+    for(var compradas = 0; compradas < 6; compradas++) {
+      var total = 0;
+      var compradas2 = compradas + 1;
+
+      for(var i = 0; i < nSimulaciones; i++) {
+          var randomVentaTortas = Math.random();
+          var totalTemporal = 0;
+          var vendidas = 0;
+
+          if(randomVentaTortas >= 0 && randomVentaTortas <= 0.4) {
+            vendidas = 1;
+          } else if(randomVentaTortas >= 0.5 && randomVentaTortas <= 0.14) {
+            vendidas = 2;
+          } else if(randomVentaTortas >= 0.15 && randomVentaTortas <= 0.34) {
+            vendidas = 3;
+          } else if(randomVentaTortas >= 0.35 && randomVentaTortas <= 0.74) {
+            vendidas = 4;
+          } else if(randomVentaTortas >= 0.75 && randomVentaTortas <= 0.94) {
+            vendidas = 5;
+          } else if(randomVentaTortas >= 0.95 && randomVentaTortas <= 1) {
+            vendidas = 6;
+          }
+
+          if(vendidas == compradas2) {
+            totalTemporal += (vendidas * 12) * 4;
+          } else if ((compradas2 - vendidas) > 0) {
+            totalTemporal += ((vendidas * 12) * 4);
+            totalTemporal += ((((compradas2 - vendidas) * 12)/2) * 1.50);
+          } else if ((compradas2 - vendidas) < 0) {
+            totalTemporal += ((compradas2 * 12) * 4);
+            totalTemporal += ((compradas2 - vendidas) * 12) * 5;
+          }
+
+          if(totalTemporal > 0) {
+            numeroGanancias[compradas] += 1;
+          } else {
+            numeroPerdidas[compradas] += 1;
+          }
+          total += totalTemporal;
+      }
+      dinero[compradas] = total;
+      total = 0;
+    }
+
+    console.log("# de Ganados: " + numeroGanancias.toString());
+    console.log("# de Perdidos: " + numeroPerdidas.toString());
+    console.log("Ganancia por docena: " + dinero.toString());
+    document.getElementById("simulaciones").innerHTML = nSimulaciones;
+    document.getElementById("docena1").innerHTML = dinero[0];
+    document.getElementById("docena2").innerHTML = dinero[1];
+    document.getElementById("docena3").innerHTML = dinero[2];
+    document.getElementById("docena4").innerHTML = dinero[3];
+    document.getElementById("docena5").innerHTML = dinero[4];
+    document.getElementById("docena6").innerHTML = dinero[5];
+  </script>
+</body>
+</html>
