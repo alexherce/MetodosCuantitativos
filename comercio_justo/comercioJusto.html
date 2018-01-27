@@ -26,6 +26,19 @@
         totalCliente += precioMayor;
       }
     }
+
+    function lala() {
+      this.yo = function() {
+        return this;
+      }.bind(this);
+    }
+
+    var lol = new lala();
+    var llol = 0;
+
+    if (lol.yo() == llol)
+      console.log(lol.yo());
+    console.log(new Date().toJSON());
     console.log("Cliente gana: " + cliente);
     console.log("Vendedor gana: " + vendedor);
     console.log("Probabilidad de que sea 100: " + vendedor/nSimulaciones);
