@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Amigos impuntuales </title>
+</head>
+<body>
+  <p><h1>Tienes <span id="resultado"></span>% de porbabilidad de que los dos lleguen   :)</h1></p>
+
+  <script type="text/javascript">
+  var contador = 0;
+  var nSimulaciones = 5000;
+
+  for( var i = 0; i < nSimulaciones ; i++ ){
+    var rnd_el = Math.floor(Math.random() * 60);
+    var rnd_ella = Math.floor(Math.random() * 60);
+    if( rnd_ella >= rnd_el){
+      var dif = rnd_ella - rnd_el;
+      if (dif <= 20){
+        contador += 1;
+      }
+    }else{
+      var dif = rnd_el - rnd_ella;
+      if (dif <= 15){
+        contador += 1;
+      }
+    }
+  }
+  var promedio = contador/nSimulaciones;
+
+  document.getElementById("resultado").innerHTML = promedio;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+<html>
+<head>
+  <title>Simulaciones Cuenta de Gastos</title>
+</head>
+<body>
+  <h3>Numero de simulaciones: <span id="simulaciones"></span></h3>
+  <h3>Promedio sobrantes salario (tomando en cuenta excedentes y deudas de otros meses): $<span id="sobrantes_salario"></span></h3>
+  <h3>Promedio minimo requerido para comidas y transporte (para no endeudarte): $<span id="minimo_requerido"></span></h3>
+  <h3>Promedio requerido para transporte: $<span id="minimo_transporte"></span></h3>
+
+  <script>
+
+  const salario = 3000;
+  var salario_mes = 0;
+  var acumulado = 0;
+  var salarios = [];
+  var sobrantes = [];
+  var diversion = 0;
+  var minimoRequerido = [];
+  var minimoTransporte = [];
+
+  function probabilidadTransporte(random) {
+    if(random <= 0.1666) {
+      return 1300;
+    } else if(random > 0.1666 && random <= 0.3332) {
+      return 1800;
+    } else if(random > 0.3332 && random <= 0.4998) {
+      return 2300;
+    } else if(random > 0.4998 && random <= 0.6664) {
+      return 2800;
+    } else if(random > 0.6664 && random <= 0.833) {
+      return 3300;
+    } else if(random > 0.833 && random <= 1) {
+      return 3800;
+    }
+  }
+
+  // VALORES PARA CONFIGURAR
+  var nSimulaciones = 5000;
+
+  for(let i = 0; i < nSimulaciones; i++) {
+    let salario_mes = salario + acumulado;
+    acumulado = 0;
+    let deuda_mes = 0;
+    let comida_mes = 0;
+    let minimo = 0;
+    let transporte = probabilidadTransporte(Math.random());
+
+    salario_mes = salario - transporte;
+
+    minimoRequerido.push(transporte + (salario_mes * 0.40));
+    minimoTransporte.push(transporte);
+
+    if(salario_mes < 0) {
+      salario_mes -= salario_mes * 0.20;
+      acumulado = salario_mes;
+    } else {
+      salario_mes -= salario_mes * 0.40;
+
+      if(salario_mes < 0) {
+        acumulado = salario_mes;
+      } else {
+        diversion += salario_mes;
+        sobrantes.push(salario_mes);
+      }
+    }
+    salarios.push(salario_mes);
+  }
+
+  var totalSalarios = 0;
+  for(var i = 0; i < salarios.length; i++) {
+    totalSalarios += salarios[i];
+  }
+  var avg = totalSalarios/salarios.length;
+
+  var totalDiversion = 0;
+  for(var i = 0; i < sobrantes.length; i++) {
+    totalDiversion += sobrantes[i];
+  }
+  var avgDiversion = totalDiversion/sobrantes.length;
+
+  var totalRequerido = 0;
+  for(var i = 0; i < minimoRequerido.length; i++) {
+    totalRequerido += minimoRequerido[i];
+  }
+  var avgRequerido = totalRequerido/minimoRequerido.length;
+
+  var totalTransporte = 0;
+  for(var i = 0; i < minimoRequerido.length; i++) {
+    totalTransporte += minimoTransporte[i];
+  }
+  var avgTransporte = totalTransporte/minimoTransporte.length;
+
+  document.getElementById("simulaciones").innerHTML = nSimulaciones;
+  document.getElementById("sobrantes_salario").innerHTML = avg;
+  document.getElementById("minimo_requerido").innerHTML = avgRequerido;
+  document.getElementById("minimo_transporte").innerHTML = avgTransporte;
+  </script>
+</body>
+</html>
