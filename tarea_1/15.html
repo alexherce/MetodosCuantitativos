@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Problema 15</title>
+
+  <!-- include jStat: https://jstat.github.io/all.html -->
+  <script src="http://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
+  <script src="libs/rands.min.js"></script>
+</head>
+<body>
+  <p><h3>Dias: <span id="op1"></span></h3></p>
+  <p><h3>Costo minimo: $<span id="op2"></span></h3></p>
+  <p><h3>Con # de camiones: <span id="op3"></span></h3></p>
+
+  <script type="text/javascript">
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function getRandomFloat(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  function getSum(total, num) {
+    return total + num;
+  }
+
+  function probabilidad(min, max, random) {
+    return min <= random && random < max;
+  }
+
+  Array.min = function( array ){
+    return Math.min.apply( Math, array );
+  }
+
+  // Llama rands.min.js
+  var r = new Rands();
+
+  var dias = 1250;
+  var trabajadoXano = 250;
+  var costo_camion_anual = 100000;
+  var max_camiones = 15;
+  var costo_tonelada = 100;
+  var camiones = [];
+  var costos = [];
+  var gasto = 0;
+
+  for (var c = 0; c < max_camiones; c++) {
+    camiones.push(c + 1);
+  }
+
+  for (var i = 0; i < camiones.length; i++) {
+    gasto = 0;
+    for (var j = 0; j < dias; j++){
+
+      rand = Math.random();
+      if(probabilidad(0, 0.1, rand)) {
+        produccion = getRandomInt(50,55);
+      } else if (probabilidad(0.1, 0.25, rand)) {
+        produccion = getRandomInt(55,60);
+      } else if (probabilidad(0.25, 0.55, rand)) {
+        produccion = getRandomInt(60,65);
+      } else if (probabilidad(0.55, 0.90, rand)) {
+        produccion = getRandomInt(65,70);
+      } else if (probabilidad(0.90, 0.98, rand)) {
+        produccion = getRandomInt(75,80);
+      } else if (probabilidad(0.98, 1, rand)) {
+        produccion = getRandomInt(80,85);
+      }
+
+      for (var k = 0; k < i; k++) {
+        rand2 = Math.random();
+        if(probabilidad(0, 0.3, rand2)) {
+          trasladoXcamion = getRandomFloat(4.0,4.5);
+        } else if (probabilidad(0.3, 0.7, rand2)) {
+          trasladoXcamion = getRandomFloat(4.5,5.0);
+        } else if (probabilidad(0.7, 0.9, rand2)) {
+          trasladoXcamion = getRandomFloat(5.0,5.5);
+        } else if (probabilidad(0.9, 1, rand2)) {
+          trasladoXcamion = getRandomFloat(5.5,6.0);
+        }
+
+        if(produccion > trasladoXcamion) {
+          produccion -= trasladoXcamion;
+        } else {
+          produccion = 0;
+        }
+      }
+
+      gasto += produccion * costo_tonelada;
+
+      if((((j+1) % trabajadoXano-1) == 0) && (j+1) != 0) {
+        gasto += costo_camion_anual * (i+1);
+      }
+    }
+    costos.push([gasto, (i+1)]);
+  }
+
+  var min = costos[0][0];
+  var indexMin = 0;
+
+  for(var m = 0; m < costos.length; m++) {
+    if(costos[m][0] < min) {
+      var indexMin = m;
+      var min = costos[m][0];
+    }
+  }
+
+  document.getElementById("op1").innerHTML = dias;
+  document.getElementById("op2").innerHTML = costos[indexMin][0];
+  document.getElementById("op3").innerHTML = costos[indexMin][1];
+
+  </script>
+
+</body>
+</html>
