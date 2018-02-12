@@ -33,14 +33,16 @@
   var r = new Rands();
 
   for (var x = 0; x < minutos; x++) {
-    if(x % hora == 0) {
+
+    if(((x+1) % hora) == 0) {
       llegadas = r.poisson(lamda);
     } else {
       llegadas = 0;
     }
 
-    fila1 += llegadas
-    servicio1 = Number.parseInt(r.exponential(exponencial));
+    fila1 += llegadas;
+    servicio1 = Number.parseInt(r.exponential(1/2));
+
     if(fila1 > servicio1) {
       fila1 -= servicio1;
       fila2 += servicio1;
@@ -50,11 +52,13 @@
     }
 
     servicio2 = getRandomInt(1,2);
+
     if(fila2 > servicio2) {
       fila2 -= servicio2;
     } else {
       fila2 = 0;
     }
+
   }
 
   document.getElementById("op1").innerHTML = fila1;
@@ -69,6 +73,5 @@
   }
 
 </script>
-
 </body>
 </html>
