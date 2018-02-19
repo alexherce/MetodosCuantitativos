@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Mundial</title>
+
+  <script src="rands.min.js"></script>
+
+</head>
+<body>
+  <div id="resultados"></div>
+
+  <script type="text/javascript">
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  // Llama rands.min.js
+  var r = new Rands();
+
+  // Datos de todas las Copas Mundiales.
+  // Paises con 50% de probabilidad en penales no tenian informacion de penales en Copas Mundiales.
+  var teams = [
+    {name: "Alemania", meanGoalTime: 42, penaltyScoreProbability: 0.944, nextGoal: 0 , totalWins: 0 },
+    {name: "ArabiaSaudita", meanGoalTime: 130, penaltyScoreProbability: 0.5, nextGoal: 0 , totalWins: 0 },
+    {name: "Argentina", meanGoalTime: 53, penaltyScoreProbability: 0.733, nextGoal: 0 , totalWins: 0 },
+    {name: "Australia", meanGoalTime: 106, penaltyScoreProbability: 0.5, nextGoal: 0 , totalWins: 0 },
+    {name: "Belgica", meanGoalTime: 71, penaltyScoreProbability: 0.99, nextGoal: 0 , totalWins: 0 },
+    {name: "Brasil", meanGoalTime: 42, penaltyScoreProbability: 0.722, nextGoal: 0 , totalWins: 0 },
+    {name: "Colombia", meanGoalTime: 62, penaltyScoreProbability: 0.5, nextGoal: 0 , totalWins: 0 },
+    {name: "Corea", meanGoalTime: 90, penaltyScoreProbability: 0.99, nextGoal: 0 , totalWins: 0 },
+    {name: "CostaRica", meanGoalTime: 79, penaltyScoreProbability: 0.8, nextGoal: 0 , totalWins: 0 },
+    {name: "Croacia", meanGoalTime: 69, penaltyScoreProbability: 0.5, nextGoal: 0 , totalWins: 0 },
+    {name: "Dinamarca", meanGoalTime: 53, penaltyScoreProbability: 0.5, nextGoal: 0 , totalWins: 0 },
+    {name: "Egipto", meanGoalTime: 120, penaltyScoreProbability: 0.5, nextGoal: 0 , totalWins: 0 },
+    {name: "Espana", meanGoalTime: 58, penaltyScoreProbability: 0.714, nextGoal: 0 , totalWins: 0 },
+    {name: "Francia", meanGoalTime: 50, penaltyScoreProbability: 0.75, nextGoal: 0 , totalWins: 0 },
+    {name: "Inglaterra", meanGoalTime: 71, penaltyScoreProbability: 0.5, nextGoal: 0 , totalWins: 0 },
+    {name: "Iran", meanGoalTime: 154, penaltyScoreProbability: 0.5, nextGoal: 0 , totalWins: 0 },
+    {name: "Islandia", meanGoalTime: 90, penaltyScoreProbability: 0.5, nextGoal: 0 , totalWins: 0 },
+    {name: "Japon", meanGoalTime: 109, penaltyScoreProbability: 0.75, nextGoal: 0 , totalWins: 0 },
+    {name: "Marruecos", meanGoalTime: 98, penaltyScoreProbability: 0.5, nextGoal: 0 , totalWins: 0 },
+    {name: "Mexico", meanGoalTime: 84, penaltyScoreProbability: 0.28, nextGoal: 0 , totalWins: 0 },
+    {name: "Nigeria", meanGoalTime: 81, penaltyScoreProbability: 0.5, nextGoal: 0 , totalWins: 0 },
+    {name: "Panama", meanGoalTime: 90, penaltyScoreProbability: 0.5, nextGoal: 0 , totalWins: 0 },
+    {name: "Peru", meanGoalTime: 71, penaltyScoreProbability: 0.5, nextGoal: 0 , totalWins: 0 },
+    {name: "Polonia", meanGoalTime: 63, penaltyScoreProbability: 0.5, nextGoal: 0 , totalWins: 0 },
+    {name: "Portugal", meanGoalTime: 54, penaltyScoreProbability: 0.6, nextGoal: 0 , totalWins: 0 },
+    {name: "Rusia", meanGoalTime: 55, penaltyScoreProbability: 0.5, nextGoal: 0 , totalWins: 0 },
+    {name: "Senegal", meanGoalTime: 64, penaltyScoreProbability: 0.5, nextGoal: 0 , totalWins: 0 },
+    {name: "Serbia", meanGoalTime: 60, penaltyScoreProbability: 0.5, nextGoal: 0 , totalWins: 0 },
+    {name: "Suecia", meanGoalTime: 56, penaltyScoreProbability: 0.833, nextGoal: 0 , totalWins: 0 },
+    {name: "Suiza", meanGoalTime: 66, penaltyScoreProbability: 0.1, nextGoal: 0 , totalWins: 0 },
+    {name: "Tunez", meanGoalTime: 135, penaltyScoreProbability: 0.5, nextGoal: 0 , totalWins: 0 },
+    {name: "Uruguay", meanGoalTime: 57, penaltyScoreProbability: 0.8, nextGoal: 0 , totalWins: 0 }
+  ];
+
+  function timeBetweenGoals(team) {
+    return Math.round(r.exponential(1/team.meanGoalTime));
+  }
+
+  function goalInPenalty(team) {
+    return Math.random() < team.penaltyScoreProbability;
+  }
+
+  function indexOfTeam(name, ts) {
+    var i = 0;
+    for (var team of ts) {
+      if (name == team.name) return i;
+      i++;
+    }
+  }
+
+  function getRandomElement(arr) {
+    var retVal = arr.splice(Math.floor(Math.random() * arr.length), 1)[0];
+    return retVal;
+  }
+
+  function popFromArray(array, index) {
+    // array.indexOf(5);
+    if (index > -1) {
+      array.splice(index, 1);
+    }
+  }
+
+  function match(teamA, teamB) {
+    var currentTime = 0;
+    // Goal counts
+    var goalsOfA = 0;
+    var goalsOfB = 0;
+    // Get initial goal times
+    teamA.nextGoal = timeBetweenGoals(teamA);
+    teamB.nextGoal = timeBetweenGoals(teamB);
+    // Regular play time
+    while (currentTime <= 90) {
+      if (teamA.nextGoal == currentTime) {
+        goalsOfA++;
+        teamA.nextGoal += timeBetweenGoals(teamA);
+      }
+      if (teamB.nextGoal == currentTime) {
+        goalsOfB++;
+        teamB.nextGoal += timeBetweenGoals(teamB);
+      }
+      if (teamB.nextGoal < teamA.nextGoal) {
+        currentTime = teamB.nextGoal;
+      }
+      else {
+        currentTime = teamB.nextGoal;
+      }
+    }
+    // Check for winners
+    if (goalsOfA < goalsOfB) return teamB;
+    if (goalsOfB < goalsOfA) return teamA;
+    // Extra time
+    while (currentTime <= 120) {
+      if (teamA.nextGoal == currentTime) {
+        goalsOfA++;
+        teamA.nextGoal += timeBetweenGoals(teamA);
+      }
+      if (teamB.nextGoal == currentTime) {
+        goalsOfB++;
+        teamB.nextGoal += timeBetweenGoals(teamB);
+      }
+      if (teamB.nextGoal < teamA.nextGoal) {
+        currentTime = teamB.nextGoal;
+      }
+      else {
+        currentTime = teamA.nextGoal;
+      }
+    }
+    // Check for winners
+    if (goalsOfA < goalsOfB) return teamB;
+    if (goalsOfB < goalsOfA) return teamA;
+    // Penalties
+    for (var penalty = 0; penalty < 5; penalty++) {
+      goalsOfA += goalInPenalty(teamA) ? 1 : 0;
+      goalsOfB += goalInPenalty(teamB) ? 1 : 0;
+    }
+    // Check for winners
+    if (goalsOfA < goalsOfB) return teamB;
+    if (goalsOfB < goalsOfA) return teamA;
+    // Tie breaker
+    while (true) {
+      goalsOfA += goalInPenalty(teamA) ? 1 : 0;
+      goalsOfB += goalInPenalty(teamB) ? 1 : 0;
+      // Check for winners
+      if (goalsOfA < goalsOfB) return teamB;
+      if (goalsOfB < goalsOfA) return teamA;
+    }
+  }
+
+  function tournament() {
+
+    var equipos = [...teams];
+    var eliminatorias = [];
+
+    var lengthArray = equipos.length;
+
+    // Grupos
+    while(lengthArray >= 1) {
+      var equipo1Index = getRandomInt(0, equipos.length-1);
+      var equipo1 = Object.assign({}, equipos[equipo1Index]);
+      popFromArray(equipos, equipo1Index);
+
+      var equipo2Index = getRandomInt(0, equipos.length-1);
+      var equipo2 = Object.assign({}, equipos[equipo2Index]);
+      popFromArray(equipos, equipo2Index);
+
+      var winner = match(equipo1, equipo2);
+
+      eliminatorias.push(winner);
+      lengthArray = equipos.length;
+    }
+
+    // 16 a 8
+    lengthArray = eliminatorias.length;
+    var octavos = [];
+
+    while(lengthArray >= 1) {
+      var equipo1 = Object.assign({}, eliminatorias.pop());
+      var equipo2 = Object.assign({}, eliminatorias.pop());
+      var winner = match(equipo1, equipo2);
+      octavos.push(winner);
+      lengthArray = eliminatorias.length;
+    }
+
+    // 8 a 4
+    lengthArray = octavos.length;
+    var cuartos = [];
+
+    while(lengthArray >= 1) {
+      var equipo1 = Object.assign({}, octavos.pop());
+      var equipo2 = Object.assign({}, octavos.pop());
+      var winner = match(equipo1, equipo2);
+      cuartos.push(winner);
+      lengthArray = octavos.length;
+    }
+
+    // 4 a 2
+    lengthArray = cuartos.length;
+    var final = [];
+
+    while(lengthArray >= 1) {
+      var equipo1 = Object.assign({}, cuartos.pop());
+      var equipo2 = Object.assign({}, cuartos.pop());
+      var winner = match(equipo1, equipo2);
+      final.push(winner);
+      lengthArray = cuartos.length;
+    }
+
+    // Final
+    var winner = match(equipo1, equipo2);
+    teams[indexOfTeam(winner.name, teams)].totalWins++;
+  }
+
+  function reportResults() {
+    let html = "<p>";
+    for (var team of teams) {
+      html += team.name + " had a total of " + team.totalWins + " wins.";
+      html += "</p>";
+    }
+    document.getElementById("resultados").innerHTML = html;
+  }
+
+  function main() {
+    for (var i = 0; i < 5000; ++i) {
+      tournament();
+    }
+
+    reportResults();
+  }
+
+  main();
+
+</script>
+</body>
+</html>

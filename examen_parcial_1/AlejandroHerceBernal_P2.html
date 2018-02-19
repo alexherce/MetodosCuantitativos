@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Problema 2 | A01021150 </title>
+</head>
+<body>
+  <h3>Simulacion 1 ventanilla</h3>
+  <div id="boxSingle"></div>
+  <br>
+  <div id="boxSingle2"></div>
+  <br>
+  <h3>Simulacion 2 ventanillas</h3>
+  <div id="boxDouble"></div>
+  <br>
+  <div id="boxDouble2"></div>
+  <br>
+  <h3>Costo anual 1 ventanilla: <span id="anual1"></span></h3>
+  <h3>Costo anual 2 ventanillas: <span id="anual2"></span></h3>
+
+
+  <script type="text/javascript">
+  function probabilidad(min, max, random) {
+    return min <= random && random < max;
+  }
+
+  function probTiempoLlegadas(random) {
+    if(probabilidad(0, 20, random)) return 1;
+    if(probabilidad(20, 45, random)) return 2;
+    if(probabilidad(45, 75, random)) return 3;
+    if(probabilidad(75, 90, random)) return 4;
+    if(probabilidad(90, 100, random)) return 5;
+  }
+
+  function probTiempoServicio(random) {
+    if(probabilidad(0, 10, random)) return 1;
+    if(probabilidad(10, 25, random)) return 2;
+    if(probabilidad(25, 60, random)) return 3;
+    if(probabilidad(60, 75, random)) return 4;
+    if(probabilidad(75, 90, random)) return 5;
+    if(probabilidad(90, 100, random)) return 6;
+  }
+
+  function calcularEsperaClientes(resultados) {
+    let total = 0;
+    for(let i = 0; i < resultados.length; i++) {
+      total += resultados[i].tiempoEsperaCliente;
+    }
+    return total;
+  }
+
+  const interarrival_time = [0,52,37,82,69,98,96,33,50,88,90,50,27,45,81,66,74,30,59,67,28,2,74,35,24,3,29,60,74,85,90];
+  const service_time = [0,60,60,80,53,69,37,6,63,57,2,94,52,69,33,32,30,48,88,33,48,72,33,62,13,74,68,22,44,42,9];
+
+  const tiempo = 60;
+
+  var costoMensual1 = 12000;
+  var costoMensual2 = 20000;
+  var costoSalariosAnuales = 16000;
+  var perdidaEsperaMinutos = 1;
+
+  function mainSingle() {
+    var resultados = [];
+    let minutosTotales = 0;
+
+    resultados.push({
+      "tiempoEntreLlegada": 0,
+      "tiempoLlegada": 0,
+      "inicioServicio": 0,
+      "tiempoServicio": 0,
+      "terminaServicio": 0,
+      "ocioPersonal": 0,
+      "tiempoEsperaCliente": 0,
+      "longitudCola": 0
+    });
+
+    // Ventanilla simple
+    for(var i = 1; i < interarrival_time.length + 1; i++) {
+      if(resultados[i - 1].terminaServicio <= tiempo) {
+        var tiempoEntreLlegada = 0, tiempoLlegada = 0, inicioServicio = 0, tiempoServicio = 0, terminaServicio = 0, ocioPersonal = 0, tiempoEsperaCliente = 0, longitudCola = 0;
+
+        tiempoEntreLlegada = probTiempoLlegadas(interarrival_time[i]);
+        tiempoLlegada = resultados[i - 1].tiempoLlegada + tiempoEntreLlegada;
+
+        if(tiempoLlegada <= tiempo) {
+          tiempoServicio = probTiempoServicio(service_time[i]);
+
+          if (tiempoLlegada < resultados[i - 1].terminaServicio) {
+            inicioServicio = resultados[i - 1].terminaServicio;
+          } else {
+            inicioServicio = tiempoLlegada;
+          }
+
+          terminaServicio = inicioServicio + tiempoServicio;
+          minutosTotales = terminaServicio;
+
+          if(tiempoLlegada > resultados[i - 1].terminaServicio) {
+            ocioPersonal = tiempoLlegada - resultados[i - 1].terminaServicio;
+          } else {
+            ocioPersonal = 0;
+          }
+
+          if(tiempoLlegada < resultados[i - 1].terminaServicio) {
+            tiempoEsperaCliente = resultados[i - 1].terminaServicio - tiempoLlegada;
+          } else {
+            tiempoEsperaCliente = 0;
+          }
+
+          if(tiempoLlegada < inicioServicio) {
+            longitudCola = 1;
+          } else {
+            longitudCola = 0;
+          }
+        } else {
+          longitudCola = resultados[i - 1].longitudCola + 1;
+        }
+
+        resultados.push({
+          "tiempoEntreLlegada": tiempoEntreLlegada,
+          "tiempoLlegada": tiempoLlegada,
+          "inicioServicio": inicioServicio,
+          "tiempoServicio": tiempoServicio,
+          "terminaServicio": terminaServicio,
+          "ocioPersonal": ocioPersonal,
+          "tiempoEsperaCliente": tiempoEsperaCliente,
+          "longitudCola": longitudCola
+        });
+      } else {
+        break;
+      }
+    }
+
+    var costoSalariosMinuto = (costoSalariosAnuales/525600) * minutosTotales;
+    var costoVentanillaMinuto = costoMensual1/525600;
+    var costoEsperaClientes = calcularEsperaClientes(resultados) * perdidaEsperaMinutos;
+    var costoMensualVentanilla = costoVentanillaMinuto * minutosTotales;
+    var total = costoSalariosMinuto + costoEsperaClientes + costoMensualVentanilla;
+
+    let final = {
+      "tabla": resultados,
+      "costoEmpleados": costoSalariosMinuto,
+      "costoEsperaClientes": costoEsperaClientes,
+      "total": total
+    };
+
+    return final;
+  }
+
+  function printSingle() {
+    let data = mainSingle();
+    let rows = data.tabla;
+
+    let html = "<table border='1|1'>";
+    html += "<tr><th>#</th>"
+    html += "<th>Tiempo entre llegada</th>"
+    html += "<th>Tiempo de llegada</th>"
+    html += "<th>Iniciacion del servicio</th>"
+    html += "<th>Tiempo de servicio</th>"
+    html += "<th>Terminacion del servicio</th>"
+    html += "<th>Ocio del personal</th>"
+    html += "<th>Tiempo de espera del cliente</th>"
+    html += "<th>Longitud de la cola</th>"
+    html += "</tr>";
+
+
+    for (var i = 1; i < rows.length; i++) {
+      html+="<tr>";
+      html+="<td>"+ (i-1) +"</td>";
+      html+="<td>"+rows[i].tiempoEntreLlegada+"</td>";
+      html+="<td>"+rows[i].tiempoLlegada+"</td>";
+      html+="<td>"+rows[i].inicioServicio+"</td>";
+      html+="<td>"+rows[i].tiempoServicio+"</td>";
+      html+="<td>"+rows[i].terminaServicio+"</td>";
+      html+="<td>"+rows[i].ocioPersonal+"</td>";
+      html+="<td>"+rows[i].tiempoEsperaCliente+"</td>";
+      html+="<td>"+rows[i].longitudCola+"</td>";
+      html+="</tr>";
+    }
+    html+="</table>";
+    document.getElementById("boxSingle").innerHTML = html;
+
+    let html2 = "<table border='1|1'>";
+    html2 += "<tr><th>Costo salarios de la hora</th>"
+    html2 += "<th>Costo espera clientes</th>"
+    html2 += "<th>Total de 1PM a 2PM</th>"
+    html2 += "</tr>";
+    html2 +="<tr>";
+    html2 +="<td>"+data.costoEmpleados+"</td>";
+    html2 +="<td>"+data.costoEsperaClientes+"</td>";
+    html2 +="<td>"+data.total+"</td>";
+    html2 +="</tr>";
+
+    document.getElementById("boxSingle2").innerHTML = html2;
+    document.getElementById("anual1").innerHTML = data.total * 7 * 200;
+  }
+
+  function mainDouble() {
+    var resultados = [];
+    let minutosTotales = 0;
+    var ventanilla = [[], []];
+
+    ventanilla[0].push({
+      "tiempoLlegada": 0,
+      "inicioServicio": 0,
+      "terminaServicio": 0
+    })
+
+    ventanilla[1].push({
+      "tiempoLlegada": 0,
+      "inicioServicio": 0,
+      "terminaServicio": 0
+    })
+
+    resultados.push({
+      "tiempoEntreLlegada": 0,
+      "tiempoLlegada": 0,
+      "inicioServicio": 0,
+      "tiempoServicio": 0,
+      "terminaServicio": 0,
+      "ocioPersonal": 0,
+      "tiempoEsperaCliente": 0,
+      "longitudCola": 0,
+      "ventanilla": 0
+    });
+
+    // Ventanilla simple
+    for(var i = 1; i < interarrival_time.length + 1; i++) {
+      if(resultados[i - 1].terminaServicio <= tiempo) {
+        var tiempoEntreLlegada = 0, tiempoLlegada = 0, inicioServicio = 0, tiempoServicio = 0, terminaServicio = 0, ocioPersonal = 0, tiempoEsperaCliente = 0, longitudCola = 0, numVentanilla = 0;
+
+        tiempoEntreLlegada = probTiempoLlegadas(interarrival_time[i]);
+
+        tiempoLlegada = resultados[i - 1].tiempoLlegada + tiempoEntreLlegada;
+
+        if(tiempoLlegada <= tiempo) {
+          tiempoServicio = probTiempoServicio(service_time[i]);
+
+          var ventanillaAtendio;
+
+          if((ventanilla[0][ventanilla[0].length - 1].terminaServicio - tiempoLlegada) < (ventanilla[1][ventanilla[1].length - 1].terminaServicio - tiempoLlegada)) {
+            if(tiempoLlegada < ventanilla[0][ventanilla[0].length - 1].terminaServicio) {
+              inicioServicio = ventanilla[0][ventanilla[0].length - 1].terminaServicio;
+            } else {
+              inicioServicio = tiempoLlegada;
+            }
+            ventanillaAtendio = 0;
+          } else {
+            if(tiempoLlegada < ventanilla[1][ventanilla[1].length - 1].terminaServicio) {
+              inicioServicio = ventanilla[1][ventanilla[1].length - 1].terminaServicio;
+            } else {
+              inicioServicio = tiempoLlegada;
+            }
+            ventanillaAtendio = 1;
+          }
+
+          terminaServicio = inicioServicio + tiempoServicio;
+          minutosTotales = terminaServicio;
+
+          if(tiempoLlegada > ventanilla[ventanillaAtendio][ventanilla[ventanillaAtendio].length - 1].terminaServicio) {
+            ocioPersonal = tiempoLlegada - ventanilla[ventanillaAtendio][ventanilla[ventanillaAtendio].length - 1].terminaServicio;
+          } else {
+            ocioPersonal = 0;
+          }
+
+          if(tiempoLlegada < ventanilla[ventanillaAtendio][ventanilla[ventanillaAtendio].length - 1].terminaServicio) {
+            tiempoEsperaCliente = ventanilla[ventanillaAtendio][ventanilla[ventanillaAtendio].length - 1].terminaServicio - tiempoLlegada;
+          } else {
+            tiempoEsperaCliente = 0;
+          }
+
+          if(tiempoLlegada < inicioServicio) {
+            longitudCola = 1;
+          } else {
+            longitudCola = 0;
+          }
+
+          ventanilla[ventanillaAtendio].push({"tiempoLlegada": tiempoLlegada,
+          "inicioServicio": inicioServicio,
+          "terminaServicio": terminaServicio });
+        } else {
+          longitudCola = resultados[i - 1].longitudCola + 1;
+        }
+
+        resultados.push({
+          "tiempoEntreLlegada": tiempoEntreLlegada,
+          "tiempoLlegada": tiempoLlegada,
+          "inicioServicio": inicioServicio,
+          "tiempoServicio": tiempoServicio,
+          "terminaServicio": terminaServicio,
+          "ocioPersonal": ocioPersonal,
+          "tiempoEsperaCliente": tiempoEsperaCliente,
+          "longitudCola": longitudCola,
+          "ventanilla": ventanillaAtendio
+        });
+      } else {
+        break;
+      }
+    }
+
+    var costoSalariosMinuto = ((costoSalariosAnuales/525600) * 2) * minutosTotales;
+    var costoVentanillaMinuto = (costoMensual2/525600) * minutosTotales;
+    var costoEsperaClientes = calcularEsperaClientes(resultados) * perdidaEsperaMinutos;
+    var total = costoSalariosMinuto + costoEsperaClientes + costoVentanillaMinuto;
+
+    let final = {
+      "tabla": resultados,
+      "costoEmpleados": costoSalariosMinuto,
+      "costoEsperaClientes": costoEsperaClientes,
+      "total": total
+    };
+
+    return final;
+  }
+
+  function printDouble() {
+    let data = mainDouble();
+    let rows = data.tabla;
+
+    let html = "<table border='1|1'>";
+    html += "<tr><th>#</th>"
+    html += "<th>Tiempo entre llegada</th>"
+    html += "<th>Tiempo de llegada</th>"
+    html += "<th>Iniciacion del servicio</th>"
+    html += "<th>Tiempo de servicio</th>"
+    html += "<th>Terminacion del servicio</th>"
+    html += "<th>Ocio del personal</th>"
+    html += "<th>Tiempo de espera del cliente</th>"
+    html += "<th>Longitud de la cola</th>"
+    html += "<th>Ventanilla</th>"
+    html += "</tr>";
+
+
+    for (var i = 1; i < rows.length; i++) {
+      html+="<tr>";
+      html+="<td>"+ (i-1) +"</td>";
+      html+="<td>"+rows[i].tiempoEntreLlegada+"</td>";
+      html+="<td>"+rows[i].tiempoLlegada+"</td>";
+      html+="<td>"+rows[i].inicioServicio+"</td>";
+      html+="<td>"+rows[i].tiempoServicio+"</td>";
+      html+="<td>"+rows[i].terminaServicio+"</td>";
+      html+="<td>"+rows[i].ocioPersonal+"</td>";
+      html+="<td>"+rows[i].tiempoEsperaCliente+"</td>";
+      html+="<td>"+rows[i].longitudCola+"</td>";
+      html+="<td>"+rows[i].ventanilla+"</td>";
+      html+="</tr>";
+    }
+    html+="</table>";
+    document.getElementById("boxDouble").innerHTML = html;
+
+    let html2 = "<table border='1|1'>";
+    html2 += "<tr><th>Costo salarios de la hora</th>"
+    html2 += "<th>Costo espera clientes</th>"
+    html2 += "<th>Total de 1PM a 2PM</th>"
+    html2 += "</tr>";
+    html2 +="<tr>";
+    html2 +="<td>"+data.costoEmpleados+"</td>";
+    html2 +="<td>"+data.costoEsperaClientes+"</td>";
+    html2 +="<td>"+data.total+"</td>";
+    html2 +="</tr>";
+
+    document.getElementById("boxDouble2").innerHTML = html2;
+    document.getElementById("anual2").innerHTML = data.total * 7 * 200;
+  }
+
+  printSingle();
+  printDouble();
+
+</script>
+</body>
+</html>
