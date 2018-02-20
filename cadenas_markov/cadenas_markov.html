@@ -1,0 +1,112 @@
+<html>
+<head>
+  <title>Cadenas de Markov</title>
+</head>
+<body>
+  <h3>Numero de simulaciones: <span id="simulaciones"></span></h3>
+  <h3>Ver resultados en consola</h3>
+
+  <script>
+
+  const SIMULACIONES = 5000;
+  const MATRIXSIZE = 3;
+  const SUMARRAY = 1.0;
+
+  function generateRandomArray(n, max) {
+    var array = [];
+    var sum = 0;
+    var sumVerify = 0;
+
+    // Generate n random numbers
+    for(var i = 0; i < n; i++) {
+      array[i] = Math.random();
+      sum += array[i];
+    }
+
+    // Normalize sum to max
+    for(var i = 0; i < array.length; i++) {
+      array[i] /= sum;
+      array[i] *= max;
+    }
+
+    // Verify sum == 1
+    for(var i = 0; i < n; i++) {
+      sumVerify += array[i];
+    }
+
+    if(sumVerify == 1) {
+      return array;
+    } else {
+      return generateRandomArray(n, max);
+    }
+    return null;
+  }
+
+  function generateMarkovMatrix(size) {
+    var matrix = [];
+    for(var r = 0; r < size; r++) {
+      matrix[r] = generateRandomArray(size, SUMARRAY);
+    }
+    return matrix;
+  }
+
+  function doMarkovStuff(array, matrix) {
+    var newArray = [];
+    for(var c = 0; c < MATRIXSIZE; c++) {
+      newArray[c] = 0;
+      for (var r = 0; r < MATRIXSIZE; r++) {
+        newArray[c] += matrix[r][c] * array[r];
+      }
+    }
+    return newArray;
+  }
+
+  function equalArrays(arrayA, arrayB) {
+    if(arrayA.length != arrayB.length) return false;
+
+    for(var i = 0; i < arrayA.length; i++) {
+      if(arrayA[i] != arrayB[i]) return false;
+    }
+    return true;
+  }
+
+  function operation() {
+    var stable = false;
+    var markovMatrix = generateMarkovMatrix(MATRIXSIZE);
+    var oldVector = generateRandomArray(MATRIXSIZE, SUMARRAY);
+    var iteration = 0;
+
+    while(!stable) {
+      iteration++;
+      var newVector = doMarkovStuff(oldVector, markovMatrix);
+
+      if(equalArrays(newVector, oldVector)) {
+        stable = true;
+        return {"markovMatrix": markovMatrix, "oldVector": oldVector, "newVector": newVector, "iteration": iteration};
+      } else {
+        oldVector = newVector;
+      }
+
+      if(iteration > 1000) {
+        stable = true;
+        return {"markovMatrix": markovMatrix, "oldVector": "Stable not found, exceeded max iterations", "newVector": "Stable not found, exceeded max iterations", "iteration": iteration};
+      }
+    }
+  }
+
+  function main() {
+    var results = [];
+
+    for(var i = 0; i < SIMULACIONES; i++) {
+      results.push(operation());
+    }
+
+    console.log(results);
+  }
+
+  main();
+
+  document.getElementById("simulaciones").innerHTML = SIMULACIONES;
+  </script>
+</body>
+</html>
