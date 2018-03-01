@@ -1,0 +1,82 @@
+<html>
+<head>
+  <title>Markov #2</title>
+</head>
+<body>
+  <h3>Estable: <span id="stable"></span></h3>
+  <h3>Iteracion: <span id="iteration"></span></h3>
+
+  <script>
+
+  const SIMULACIONES = 5000;
+  const MATRIXSIZE = 3;
+  const SUMARRAY = 1.0;
+  const MATRIX = [];
+  const ARRAY = [];
+
+  function doMarkovStuff(array, matrix) {
+    var newArray = [];
+    for(var c = 0; c < MATRIXSIZE; c++) {
+      newArray[c] = 0;
+      for (var r = 0; r < MATRIXSIZE; r++) {
+        newArray[c] += matrix[r][c] * array[r];
+      }
+    }
+    return newArray;
+  }
+
+  function equalArrays(arrayA, arrayB) {
+    if(arrayA.length != arrayB.length) return false;
+
+    for(var i = 0; i < arrayA.length; i++) {
+      if(arrayA[i] != arrayB[i]) return false;
+    }
+    return true;
+  }
+
+  function operation() {
+    var stable = false;
+    var markovMatrix = MATRIX;
+    var oldVector = ARRAY;
+    var iteration = 0;
+
+    while(!stable) {
+      iteration++;
+      var newVector = doMarkovStuff(oldVector, markovMatrix);
+
+      if(equalArrays(newVector, oldVector)) {
+        stable = true;
+        return {"markovMatrix": markovMatrix, "oldVector": oldVector, "newVector": newVector, "iteration": iteration};
+      } else {
+        oldVector = newVector;
+      }
+
+      if(iteration > 1000) {
+        stable = true;
+        return {"markovMatrix": markovMatrix, "oldVector": "Stable not found, exceeded max iterations", "newVector": "Stable not found, exceeded max iterations", "iteration": iteration};
+      }
+    }
+  }
+
+  function main() {
+    MATRIX[0] = [0.8, 0.1, 0.1];
+    MATRIX[1] = [0.05, 0.9, 0.05];
+    MATRIX[2] = [0.2, 0.1, 0.7];
+
+    ARRAY[0] = 200000;
+    ARRAY[1] = 200000;
+    ARRAY[2] = 200000;
+
+    var results = operation();
+
+    console.log(results);
+
+    document.getElementById("stable").innerHTML = results.newVector;
+    document.getElementById("iteration").innerHTML = results.iteration;
+  }
+
+  main();
+
+  </script>
+</body>
+</html>

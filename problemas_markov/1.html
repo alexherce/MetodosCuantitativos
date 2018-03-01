@@ -1,0 +1,46 @@
+<html>
+<head>
+  <title>Markov #1</title>
+</head>
+<body>
+  <h3>Resultado: <span id="result"></span></h3>
+  <script>
+
+  const SIMULACIONES = 5000;
+  const MATRIXSIZE = 3;
+  const SUMARRAY = 1.0;
+  const MATRIX = [];
+  const ARRAY = [];
+
+  function doMarkovStuff(array, matrix) {
+    var newArray = [];
+    for(var c = 0; c < MATRIXSIZE; c++) {
+      newArray[c] = 0;
+      for (var r = 0; r < MATRIXSIZE; r++) {
+        newArray[c] += matrix[r][c] * array[r];
+      }
+    }
+    return newArray;
+  }
+
+  function main() {
+    MATRIX[0] = [0.8, 0.1, 0.1];
+    MATRIX[1] = [0.2, 0.7, 0.1];
+    MATRIX[2] = [0.25, 0.15, 0.6];
+
+    ARRAY[0] = 100;
+    ARRAY[1] = 80;
+    ARRAY[2] = 60;
+
+    var result = doMarkovStuff(ARRAY, MATRIX);
+
+    console.log(result);
+
+    document.getElementById("result").innerHTML = result;
+  }
+
+  main();
+
+  </script>
+</body>
+</html>
