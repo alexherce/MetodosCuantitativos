@@ -1,0 +1,74 @@
+<html>
+<head>
+  <title>Markov</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/4.0.0/math.min.js"></script>
+</head>
+<body>
+  <h3>Resultado: <span id="result"></span></h3>
+  <script>
+
+  const MATRIX = [];
+  const I = [];
+  const O = [];
+  const A = [];
+  const B = [];
+  const M = [];
+  var F;
+  var FA;
+  var R;
+
+  function splitMatrix() {
+    I[0] = [MATRIX[0][0], MATRIX[0][1]];
+    I[1] = [MATRIX[1][0], MATRIX[1][1]];
+
+    O[0] = [MATRIX[0][2], MATRIX[0][3]];
+    O[1] = [MATRIX[1][2], MATRIX[1][3]];
+
+    A[0] = [MATRIX[2][0], MATRIX[2][1]];
+    A[1] = [MATRIX[3][0], MATRIX[3][1]];
+
+    B[0] = [MATRIX[2][2], MATRIX[2][3]];
+    B[1] = [MATRIX[3][2], MATRIX[3][3]];
+  }
+
+  function main() {
+
+    MATRIX[0] = [1, 0, 0, 0];
+    MATRIX[1] = [0, 1, 0, 0];
+    MATRIX[2] = [0.6, 0, 0.1, 0.3];
+    MATRIX[3] = [0.3, 0.3, 0.2, 0.2];
+
+    M[0] = 50;
+    M[1] = 30;
+
+    splitMatrix();
+
+    console.log(I);
+    console.log(O);
+    console.log(A);
+    console.log(B);
+
+    F = math.subtract(I, B);
+
+    console.log(F);
+
+    F = math.inv(F);
+
+    console.log(F);
+
+    FA = math.multiply(F, A);
+
+    console.log(FA);
+
+    R = math.multiply(M, FA);
+
+    console.log(R);
+
+    document.getElementById("result").innerHTML = R;
+  }
+
+  main();
+
+  </script>
+</body>
+</html>
