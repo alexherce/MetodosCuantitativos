@@ -1,0 +1,333 @@
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Fraude en las Elecciones con Tarjetas | A01021150</title>
+</head>
+<body>
+  <h2>NOTA: El documento puede tardar unos minutos en cargar, se actualizara cuando acabe de hacer los calculos!</h2>
+</br>
+</br>
+<h3>Tarjetas totales generadas: <span id="total-cards"></span></h3>
+<h3>Tarjetas de posible fraude detectadas: <span id="fraud-cards"></span></h3>
+<h3>Monto total del posible fraude: $<span id="fraud-amount"></span></h3>
+<h3>Falsos positivos (detectadas como fraude pero no son): <span id="false-positives"></span></h3>
+<h3>Numero de tarjetas por BIN con posibles fraudes:</h3>
+<ul>
+  <li>Banamex: <span id="bank-banamex"></span></li>
+  <li>Banbajio: <span id="bank-banbajio"></span></li>
+  <li>Banco Azteca: <span id="bank-azteca"></span></li>
+  <li>Bancoppel: <span id="bank-bancoppel"></span></li>
+  <li>Banorte: <span id="bank-banorte"></span></li>
+  <li>Banregio: <span id="bank-banrejio"></span></li>
+  <li>Bancomer: <span id="bank-bancomer"></span></li>
+  <li>HSBC: <span id="bank-hsbc"></span></li>
+  <li>Inbursa: <span id="bank-inbursa"></span></li>
+  <li>Ixe: <span id="bank-ixe"></span></li>
+  <li>Monex: <span id="bank-monex"></span></li>
+  <li>Multiva: <span id="bank-multiva"></span></li>
+  <li>Santander: <span id="bank-santander"></span></li>
+  <li>Liverpool: <span id="bank-liverpool"></span></li>
+</ul>
+
+<h3>NOTAS:</h3>
+<ul>
+  <li>Ver consola para ver los arreglos generados de tarjetas totales y de las fraudulentas detectadas.</li>
+</ul>
+
+<h3>Patrones para detectar fraude:</h3>
+<ul>
+  <li>Se uso un sistema de score. Por cada condicion que se cumpla, se suman puntos al score. Si el score es mayor de cierto numero, es detectada como posible fraude.</li>
+  <li>Bancos sospechosos: Banamex, Santander y Liverpool.</li>
+  <li>Bancos altamente sospechosos (suman mas puntos que los sospechosos): Bancomer, Bancoppel, Banco Azteca, Monex.</li>
+  <li>Saldo o balance de la tarjeta menor o igual a $500.</li>
+  <li>Saldo o balance es multiplo de 25 (100, 125, 150, 200, etc). Es poco probable que alguien no sospechoso tenga saldo o balance en multiplo de 25 y sin decimales.</li>
+  <li>Fecha y año de expedicion de entre enero y junio del 2018. Normalmente, las fechas de vencimiento son 3 años mas del año de expedicion. Con eso se puede saber en que mes y año fue expedida. Las posibles fraudulentas son generadas entre enero y junio del 2018.</li>
+</ul>
+
+<script>
+
+// Real BIN list with bank name
+// Does not contain all BINs for MX
+const binDB = [
+  {"bin": 517712, "bank": "BANAMEX"},
+  {"bin": 520416, "bank": "BANAMEX"},
+  {"bin": 520694, "bank": "BANAMEX"},
+  {"bin": 520698, "bank": "BANAMEX"},
+  {"bin": 525678, "bank": "BANAMEX"},
+  {"bin": 554492, "bank": "BANAMEX"},
+  {"bin": 421003, "bank": "BANBAJIO"},
+  {"bin": 402766, "bank": "BANCO AZTECA"},
+  {"bin": 551238, "bank": "BANCO AZTECA"},
+  {"bin": 557604, "bank": "BANCO AZTECA"},
+  {"bin": 553467, "bank": "BANCO AZTECA"},
+  {"bin": 400819, "bank": "BANCOPPEL"},
+  {"bin": 416916, "bank": "BANCOPPEL"},
+  {"bin": 491566, "bank": "BANORTE"},
+  {"bin": 433114, "bank": "BANORTE"},
+  {"bin": 491340, "bank": "BANORTE"},
+  {"bin": 474174, "bank": "BANREGIO"},
+  {"bin": 533609, "bank": "BANCOMER"},
+  {"bin": 441313, "bank": "BANCOMER"},
+  {"bin": 409851, "bank": "BANCOMER"},
+  {"bin": 415231, "bank": "BANCOMER"},
+  {"bin": 455511, "bank": "BANCOMER"},
+  {"bin": 421316, "bank": "HSBC"},
+  {"bin": 483030, "bank": "HSBC"},
+  {"bin": 491089, "bank": "HSBC"},
+  {"bin": 465828, "bank": "INBURSA"},
+  {"bin": 433454, "bank": "IXE"},
+  {"bin": 417849, "bank": "LIVERPOOL"},
+  {"bin": 533987, "bank": "MONEX"},
+  {"bin": 426808, "bank": "MULTIVA"},
+  {"bin": 557907, "bank": "SANTANDER"},
+  {"bin": 557909, "bank": "SANTANDER"},
+  {"bin": 557910, "bank": "SANTANDER"},
+  {"bin": 557905, "bank": "SANTANDER"}
+];
+
+// Variables for random generator
+const A = 314;
+const C = 453;
+const M = 2147483648;
+var I1 = 357368633;
+var I2 = 769783654;
+var concat;
+var bin;
+var rand1;
+var rand2;
+
+const CARDNUMBER = 1000000;
+
+var totalFraudMoney = 0;
+
+var cards = [];
+
+function getBank(bin) {
+  var index = binDB.findIndex(x => x.bin == parseInt(bin));
+  return binDB[index].bank;
+}
+
+function getRandomIntInclusive(min, max) {
+  const randomBuffer = new Uint32Array(1);
+
+  window.crypto.getRandomValues(randomBuffer);
+
+  let randomNumber = randomBuffer[0] / (0xffffffff + 1);
+
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(randomNumber * (max - min + 1)) + min;
+}
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+var luhnChk = (function (arr) {
+  return function (ccNum) {
+    var
+    len = ccNum.length,
+    bit = 1,
+    sum = 0,
+    val;
+
+    while (len) {
+      val = parseInt(ccNum[--len], 10);
+      sum += (bit ^= 1) ? arr[val] : val;
+    }
+
+    return sum && sum % 10 === 0;
+  };
+}([0, 2, 4, 6, 8, 1, 3, 5, 7, 9]));
+
+function probabilidad(min, max, random) {
+  return min <= random && random < max;
+}
+
+function probCredit(random) {
+  if(probabilidad(0, 80, random)) return true;
+  if(probabilidad(80, 100, random)) return false;
+}
+
+function probBalance(random) {
+  if(probabilidad(0, 10, random)) return 100;
+  if(probabilidad(10, 20, random)) return 150;
+  if(probabilidad(20, 30, random)) return 200;
+  if(probabilidad(30, 40, random)) return 250;
+  if(probabilidad(40, 50, random)) return 300;
+  if(probabilidad(50, 60, random)) return 350;
+  if(probabilidad(60, 70, random)) return 400;
+  if(probabilidad(70, 80, random)) return 450;
+  if(probabilidad(80, 90, random)) return 500;
+  if(probabilidad(90, 100, random)) return 175;
+}
+
+function generateCard() {
+  bin = binDB[getRandomIntInclusive(0, binDB.length-1)].bin.toString();
+
+  do {
+    rand1 = ((A * I1) + C) % M;
+    rand2 = ((A * I2) + C) % M;
+
+    I1++;
+    I2++;
+
+    concat = bin;
+    concat += rand1.toString().slice(0, 5);
+    concat += rand2.toString().slice(-5);
+    concat = parseInt(concat);
+  } while (luhnChk(concat.toString().split("")) == false);
+
+  return concat;
+}
+
+function createAllCards(amount) {
+  do {
+    var expMonth = 0;
+    var expYear = 0;
+    var creditAmt = 0;
+    var fraud = false;
+
+    if(probCredit(getRandomIntInclusive(1, 100))) {
+      creditAmt = getRandomIntInclusive(1, 50000);
+      expMonth = getRandomIntInclusive(1, 12);
+      expYear = getRandomIntInclusive(18, 23);
+    } else {
+      creditAmt = probBalance(getRandomIntInclusive(1, 100));
+      expMonth = getRandomIntInclusive(1, 6);
+      expYear = 21;
+      fraud = true;
+    }
+
+    var newCard = {
+      "card": generateCard(),
+      "month": expMonth,
+      "year": expYear,
+      "balance": creditAmt,
+      "fraud": fraud
+    }
+
+    cards.push(newCard);
+  } while (cards.length < amount);
+}
+
+function countFraudByBank(fraudCards) {
+  var banamex = 0;
+  var banbajio = 0;
+  var azteca = 0;
+  var bancoppel = 0;
+  var banorte = 0;
+  var banregio = 0;
+  var bancomer = 0;
+  var hsbc = 0;
+  var inbursa = 0;
+  var ixe = 0;
+  var monex = 0;
+  var multiva = 0;
+  var santander = 0;
+  var liverpool = 0;
+
+  for (var i = 0; i < fraudCards.length; i++) {
+    var bank = getBank(fraudCards[i].card.toString().slice(0,6));
+    if (bank == "BANAMEX") banamex++;
+    if (bank == "BANBAJIO") banbajio++;
+    if (bank == "BANCO AZTECA") azteca++;
+    if (bank == "BANCOPPEL") bancoppel++;
+    if (bank == "BANORTE") banorte++;
+    if (bank == "BANREGIO") banregio++;
+    if (bank == "BANCOMER") bancomer++;
+    if (bank == "HSBC") hsbc++;
+    if (bank == "INBURSA") inbursa++;
+    if (bank == "IXE") ixe++;
+    if (bank == "MONEX") monex++;
+    if (bank == "MULTIVA") multiva++;
+    if (bank == "SANTANDER") santander++;
+    if (bank == "LIVERPOOL") liverpool++;
+  }
+  document.getElementById("bank-banamex").innerHTML = banamex;
+  document.getElementById("bank-banbajio").innerHTML = banbajio;
+  document.getElementById("bank-azteca").innerHTML = azteca;
+  document.getElementById("bank-bancoppel").innerHTML = bancoppel;
+  document.getElementById("bank-banorte").innerHTML = banorte;
+  document.getElementById("bank-banrejio").innerHTML = banregio;
+  document.getElementById("bank-bancomer").innerHTML = bancomer;
+  document.getElementById("bank-hsbc").innerHTML = hsbc;
+  document.getElementById("bank-inbursa").innerHTML = inbursa;
+  document.getElementById("bank-ixe").innerHTML = ixe;
+  document.getElementById("bank-monex").innerHTML = monex;
+  document.getElementById("bank-multiva").innerHTML = multiva;
+  document.getElementById("bank-santander").innerHTML = santander;
+  document.getElementById("bank-liverpool").innerHTML = liverpool;
+}
+
+function main() {
+  createAllCards(CARDNUMBER);
+
+  var fraudCards = [];
+
+  for (var i = 0; i < cards.length; i++) {
+    // Sistema de puntos
+    var fraudScore = 0;
+
+    // Verificar banco
+    var bank = getBank(cards[i].card.toString().slice(0,6));
+    if (bank == "BANAMEX" || bank == "SANTANDER" || bank == "LIVERPOOL") {
+      fraudScore += 1;
+    } else if (bank == "BANCOMER" || bank == "BANCOPPEL" || bank == "BANCO AZTECA" || bank == "MONEX") {
+      fraudScore += 2;
+    }
+
+    // Verificar si el saldo es de $500 o menos
+    if(cards[i].balance <= 500) {
+      fraudScore += 1;
+    }
+
+    // Verificar si saldo es multiplo de 25
+    var remainder = Math.round(cards[i].balance % 25);
+    if (remainder == 0) {
+      fraudScore += 2;
+    }
+
+    // Verificar fecha de emision de Tarjetas
+    // El estandar de fecha de vencimiento es 3 años mas del año de expedicion
+    // Probable que tarjetas se hayan comprado entre enero y junio de 2018
+    if (cards[i].year == 21 && cards[i].month < 7) {
+      fraudScore += 2;
+    }
+
+    if (fraudScore > 4) {
+      totalFraudMoney += cards[i].balance;
+      fraudCards.push(cards[i]);
+    }
+  }
+
+  var notFraud = 0;
+
+  for (var i = 0; i < fraudCards.length; i++) {
+    if(fraudCards[i].fraud == false) {
+      notFraud++;
+    }
+  }
+
+  console.log(cards);
+  console.log(fraudCards);
+
+  document.getElementById("total-cards").innerHTML = cards.length;
+  document.getElementById("fraud-cards").innerHTML = fraudCards.length;
+  document.getElementById("fraud-amount").innerHTML = totalFraudMoney;
+  document.getElementById("false-positives").innerHTML = notFraud;
+
+  countFraudByBank(fraudCards);
+}
+
+if (window.attachEvent) {
+  window.attachEvent('onload', main);
+} else if (window.addEventListener) {
+  window.addEventListener('load', main, false);
+} else {
+  document.addEventListener('load', main, false);
+}
+
+</script>
+</body>
+</html>

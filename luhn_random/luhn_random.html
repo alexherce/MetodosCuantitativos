@@ -1,0 +1,154 @@
+<html>
+<head>
+  <title>Simulaciones Random Tarjetas</title>
+</head>
+<body>
+  <h3>Ver Consola para Resultados</h3>
+
+  <script>
+  // Busquedas en arreglos mas rapidas
+  var binarySearch = function(array, value) {
+    var guess,
+    min = 0,
+    max = array.length - 1;
+
+    while(min <= max){
+      guess = Math.floor((min + max) /2);
+      if(array[guess] === value)
+      return guess;
+      else if(array[guess] < value)
+      min = guess + 1;
+      else
+      max = guess - 1;
+    }
+
+    return -1;
+  }
+
+  function binaryIndexOf(searchElement) {
+    'use strict';
+
+    var minIndex = 0;
+    var maxIndex = this.length - 1;
+    var currentIndex;
+    var currentElement;
+
+    while (minIndex <= maxIndex) {
+      currentIndex = (minIndex + maxIndex) / 2 | 0;
+      currentElement = this[currentIndex];
+
+      if (currentElement < searchElement) {
+        minIndex = currentIndex + 1;
+      }
+      else if (currentElement > searchElement) {
+        maxIndex = currentIndex - 1;
+      }
+      else {
+        return currentIndex;
+      }
+    }
+
+    return -1;
+  }
+
+  Array.prototype.binaryIndexOf = binaryIndexOf;
+
+  function locationOf(element, array, start, end) {
+    start = start || 0;
+    end = end || array.length;
+    var pivot = parseInt(start + (end - start) / 2, 10);
+    if (array[pivot] === element) return pivot;
+    if (end - start <= 1)
+    return array[pivot] > element ? pivot - 1 : pivot;
+    if (array[pivot] < element) {
+      return locationOf(element, array, pivot, end);
+    } else {
+      return locationOf(element, array, start, pivot);
+    }
+  }
+
+  function insert(element, array) {
+    array.splice(locationOf(element, array) + 1, 0, element);
+    return array;
+  }
+
+  /**
+  * Luhn algorithm in JavaScript: validate credit card number supplied as string of numbers
+  * @author ShirtlessKirk. Copyright (c) 2012.
+  */
+  var luhnChk = (function (arr) {
+    return function (ccNum) {
+      var
+      len = ccNum.length,
+      bit = 1,
+      sum = 0,
+      val;
+
+      while (len) {
+        val = parseInt(ccNum[--len], 10);
+        sum += (bit ^= 1) ? arr[val] : val;
+      }
+
+      return sum && sum % 10 === 0;
+    };
+  }([0, 2, 4, 6, 8, 1, 3, 5, 7, 9]));
+
+  function getRandomIntInclusive(min, max) {
+    const randomBuffer = new Uint32Array(1);
+
+    window.crypto.getRandomValues(randomBuffer);
+
+    let randomNumber = randomBuffer[0] / (0xffffffff + 1);
+
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(randomNumber * (max - min + 1)) + min;
+  }
+
+  var valid = [];
+  var randoms = [];
+  var seed = "" + getRandomIntInclusive(1000000000000000, 9999999999999999);
+  var numb = seed;
+
+  function BI() {
+    var digits = 16;
+
+    do {
+      // insert(numb, randoms);
+      randoms.push(numb);
+
+      if(luhnChk(numb.split(""))) {
+        insert(numb, valid);
+      }
+
+      // randoms.addSorted(numb);
+      // valid.addSorted(numb);
+
+      for(var i = 0; i < seed.toString().length; i++) {
+        numb = Math.pow(parseInt(seed), 2);
+        if (numb <= 1)
+        numb += 1;
+
+        seed = numb.toString().slice(2);
+        seed = parseInt(seed);
+
+        while(seed.toString().length < digits) {
+          seed = parseInt("1" + seed);
+        }
+      }
+
+      numb = "" + seed;
+
+      if(randoms.length % 1000 == 0) {
+        console.log("Randoms generados: " + randoms.length + " Validos: " + valid.length);
+      }
+
+    } while (valid.binaryIndexOf(numb) < 0 && valid.length < 100000);
+  }
+
+  BI();
+  console.log(valid);
+
+  </script>
+</body>
+</html>

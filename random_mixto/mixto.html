@@ -1,0 +1,31 @@
+<html>
+<head>
+  <title>Markov #1</title>
+</head>
+<body>
+  <h3>Resultado: <span id="result"></span></h3>
+  <script>
+
+  function main() {
+
+    const A = 314;
+    const C = 453;
+    const M = 2147483648;
+    const I2 = 357368633;
+
+    var results = [];
+
+    for(var i = 357368633; i < I2 + 20; i++) {
+      results.push(((A * i) + C) % M);
+    }
+
+    console.log(results);
+
+    document.getElementById("result").innerHTML = result;
+  }
+
+  main();
+
+  </script>
+</body>
+</html>

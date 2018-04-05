@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Evaluacion de Competencias: Barcazas | A01021150 </title>
+</head>
+<body>
+  <h3>Simulacion 1 ventanilla</h3>
+  <div id="boxSingle"></div>
+  <br>
+  <div id="boxSingle2"></div>
+  <br>
+  <h3>Costo anual 1 ventanilla: <span id="anual1"></span></h3>
+
+
+  <script type="text/javascript">
+
+  var barcazasPendientes = 0;
+  var promedioRetrasos = 0;
+  var promedioDescargas = 0;
+  var promedioLlegadas = 0;
+
+  var llegaron = 0;
+  var retrasos = 0;
+  var descargaron = 0;
+
+  function probabilidad(min, max, random) {
+    return min < random && random <= max;
+  }
+
+  function probTiempoLlegadas(random) {
+    if(probabilidad(1, 13, random)) return 0;
+    if(probabilidad(13, 30, random)) return 1;
+    if(probabilidad(30, 45, random)) return 2;
+    if(probabilidad(45, 70, random)) return 3;
+    if(probabilidad(70, 90, random)) return 4;
+    if(probabilidad(90, 100, random)) return 5;
+  }
+
+  function probTiempoServicio(random) {
+    if(probabilidad(0, 5, random)) return 1;
+    if(probabilidad(5, 20, random)) return 2;
+    if(probabilidad(20, 70, random)) return 3;
+    if(probabilidad(70, 90, random)) return 4;
+    if(probabilidad(90, 100, random)) return 5;
+  }
+
+  function calcularEsperaClientes(resultados) {
+    let total = 0;
+    for(let i = 0; i < resultados.length; i++) {
+      total += resultados[i].tiempoEsperaCliente;
+    }
+    return total;
+  }
+
+  const interarrival_time = [37, 77, 13, 10, 2, 18, 31, 19, 32, 85, 31, 94, 81, 43, 31];
+  const service_time = [69, 84, 12, 94, 51, 36, 17, 2, 15, 29, 16, 52, 56, 43, 26];
+
+  function main() {
+
+    for(var i = 0; i < interarrival_time.length; i++) {
+      var llegadasNoche = probTiempoLlegadas(interarrival_time[i]);
+      var descargasNoche = probTiempoServicio(service_time[i]);
+
+      console.log(llegadasNoche + " - " + descargasNoche);
+
+      promedioLlegadas += llegadasNoche;
+      //promedioDescargas += descargasNoche;
+
+      if(llegadasNoche > 0) llegaron++;
+
+      barcazasPendientes += llegadasNoche;
+
+      for(var j = 0; j < descargasNoche; j++) {
+        if(barcazasPendientes > 0) {
+          barcazasPendientes--;
+          promedioDescargas++;
+          descargaron++
+        } else {
+          break;
+        }
+      }
+
+      if(barcazasPendientes > 0) retrasos++;
+      promedioRetrasos += barcazasPendientes;
+    }
+
+    console.log("Prom Llegadas: " + promedioLlegadas/llegaron);
+    console.log("Prom Descargas: " + promedioDescargas/llegaron);
+    console.log("Prom Retrasos: " + promedioRetrasos/retrasos);
+  }
+
+  main();
+
+</script>
+</body>
+</html>
