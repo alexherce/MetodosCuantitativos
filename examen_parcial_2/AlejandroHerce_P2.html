@@ -1,0 +1,402 @@
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Eleccion 2018</title>
+</head>
+<body>
+  <h3>Datos de ultimas encuestas</h3>
+  <ul>
+    <li>AMLO: <span id="enc-amlo"></span>%</li>
+    <li>Anaya: <span id="enc-anaya"></span>%</li>
+    <li>Meade: <span id="enc-meade"></span>%</li>
+    <li>Zavala: <span id="enc-zavala"></span>%</li>
+    <li>Otros: <span id="enc-otros"></span>%</li>
+  </ul>
+  <br>
+  <h3>Probabilidades de ganar la eleccion (calculado con datos de las ultimas encuestas)</h3>
+  <ul>
+    <li>AMLO: <span id="prob-amlo"></span>%</li>
+    <li>Anaya: <span id="prob-anaya"></span>%</li>
+    <li>Meade: <span id="prob-meade"></span>%</li>
+    <li>Zavala: <span id="prob-zavala"></span>%</li>
+    <li>Otros: <span id="prob-otros"></span>%</li>
+  </ul>
+  <br>
+  <h3>Simular X elecciones voto por voto (con datos de encuestas)</h3>
+  <p>Numero de elecciones a simular: <input id="n-sims" type="text" value="10"></input></p>
+  <button onclick="simulateElection();">Simular N elecciones voto x voto (puede tardar varios minutos)</button>
+  <ul>
+    <li>AMLO: <span id="votos-amlo"></span>%</li>
+    <li>Anaya: <span id="votos-anaya"></span>%</li>
+    <li>Meade: <span id="votos-meade"></span>%</li>
+    <li>Zavala: <span id="votos-zavala"></span>%</li>
+    <li>Otros: <span id="votos-otros"></span>%</li>
+  </ul>
+  <h3>Simular X elecciones por probabilidad de ganar (calculada arriba)</h3>
+  <p>Numero de elecciones a simular: <input id="n-sims-prob" type="text" value="20000"></input></p>
+  <button onclick="simulateElectionByProb();">Simular N elecciones con la probabilidad calculada (puede tardar varios minutos)</button>
+  <ul>
+    <li>AMLO: <span id="votos-prob-amlo"></span>%</li>
+    <li>Anaya: <span id="votos-prob-anaya"></span>%</li>
+    <li>Meade: <span id="votos-prob-meade"></span>%</li>
+    <li>Zavala: <span id="votos-prob-zavala"></span>%</li>
+    <li>Otros: <span id="votos-prob-otros"></span>%</li>
+  </ul>
+  <br>
+  <h3>Estadisticas de la eleccion</h3>
+  <ul>
+    <li>Lista nominal: <span id="est-nom"></span> (al 30 de marzo 2018)</li>
+    <li>Participacion (promedio de 2 ultimas elecciones): <span id="est-part"></span></li>
+    <li>Votos anulados (promedio de 2 ultimas elecciones): <span id="est-nulos"></span></li>
+    <li>Votos a candidatos: <span id="est-votos-candidatos"></span></li>
+    <li>Votos fuera del pais (promedio de 2 ultimas elecciones): 0.05%</li>
+  </ul>
+  <br>
+  <h3>Votos duros por candidato y partido (afiliados/militantes al partido)</h3>
+  <ul>
+    <li><b>Votos duros AMLO</b></li>
+    <li>Votos duros de MORENA: <span id="est-morena"></span></li>
+    <li>Votos duros del PT: <span id="est-pt"></span></li>
+    <li>Votos duros del EC: <span id="est-ec"></span></li>
+    <li>Total: <span id="est-total-amlo"></span></li>
+    <li><b>Votos duros Anaya</b></li>
+    <li>Votos duros del PAN: <span id="est-pan"></span></li>
+    <li>Votos duros del PRD: <span id="est-prd"></span></li>
+    <li>Votos duros del MC: <span id="est-mc"></span></li>
+    <li>Total: <span id="est-total-anaya"></span></li>
+    <li><b>Votos duros Meade</b></li>
+    <li>Votos duros del PRI: <span id="est-pri"></span></li>
+    <li>Votos duros del PVEM: <span id="est-pvem"></span></li>
+    <li>Votos duros del NA: <span id="est-na"></span></li>
+    <li>Total: <span id="est-total-meade"></span></li>
+  </ul>
+  <br>
+  <script>
+
+  const SIMULACIONES = 20000;
+  const MATRIXSIZE = 5;
+  const SUMARRAY = 1.0;
+  const MATRIX = [];
+  const ARRAY = [];
+  var resultMarkov;
+
+  // Estadisticas elecciones pasadas
+  var nominal2006 = 71374373;
+  var nominal2012 = 79492286;
+  var participacion2006 = 41557430;
+  var participacion2012 = 50143616;
+  var nulos2006 = 900373;
+  var nulos2012 = 1236857;
+
+  var porcentajeParticipacion2006 = (participacion2006/nominal2006);
+  var porcentajeParticipacion2012 = (participacion2012/nominal2012);
+  var promedioParticipacion = (porcentajeParticipacion2006 + porcentajeParticipacion2012) / 2;
+
+  var porcentajeNulos2006 = (nulos2006/participacion2006);
+  var porcentajeNulos2012 = (nulos2012/participacion2012);
+  var promedioNulos = (porcentajeNulos2006 + porcentajeNulos2012) / 2;
+
+  // Estadisticas eleccion actual
+  var nominal = 89333334;
+  var participacion = nominal * promedioParticipacion;
+  var nulos = participacion * promedioNulos;
+  var votosACandidatos = participacion - nulos;
+
+  document.getElementById("est-nom").innerHTML = nominal;
+  document.getElementById("est-part").innerHTML = participacion.toFixed(2) + " (" + ((participacion/nominal)*100).toFixed(2) + "%)";
+  document.getElementById("est-nulos").innerHTML = nulos.toFixed(2) + " (" + ((nulos/nominal)*100).toFixed(2) + "%)";
+  document.getElementById("est-votos-candidatos").innerHTML = votosACandidatos.toFixed(2) + " (" + ((votosACandidatos/nominal)*100).toFixed(2) + "%)";;
+
+  // Militantes partidos http://actores-politicos.ine.mx/actores-politicos/partidos-politicos/nacionales/padron-afiliados/
+  var afiliadosPRI = 6368763;
+  var afiliadosPV = 308224;
+  var afiliadosNA = 657864;
+  var totalMeade = afiliadosPRI + afiliadosPV + afiliadosNA;
+
+  document.getElementById("est-pri").innerHTML = afiliadosPRI + " (" + ((afiliadosPRI/nominal)*100).toFixed(2) + "%)";
+  document.getElementById("est-pvem").innerHTML = afiliadosPV + " (" + ((afiliadosPV/nominal)*100).toFixed(2) + "%)";
+  document.getElementById("est-na").innerHTML = afiliadosNA + " (" + ((afiliadosNA/nominal)*100).toFixed(2) + "%)";
+  document.getElementById("est-total-meade").innerHTML = totalMeade + " (" + ((totalMeade/nominal)*100).toFixed(2) + "%)";
+
+  var afiliadosMorena = 319449;
+  var afiliadosPT = 513315;
+  var afiliadosEC = 244388;
+  var totalAmlo = afiliadosMorena + afiliadosPT + afiliadosEC;
+
+  document.getElementById("est-morena").innerHTML = afiliadosMorena + " (" + ((afiliadosMorena/nominal)*100).toFixed(2) + "%)";
+  document.getElementById("est-pt").innerHTML = afiliadosPT + " (" + ((afiliadosPT/nominal)*100).toFixed(2) + "%)";
+  document.getElementById("est-ec").innerHTML = afiliadosEC + " (" + ((afiliadosEC/nominal)*100).toFixed(2) + "%)";
+  document.getElementById("est-total-amlo").innerHTML = totalAmlo + " (" + ((totalAmlo/nominal)*100).toFixed(2) + "%)";
+
+  var afiliadosPAN = 378838;
+  var afiliadosPRD = 5254778;
+  var afiliadosMC = 468946;
+  var totalAnaya = afiliadosPAN + afiliadosPRD + afiliadosMC;
+
+  document.getElementById("est-pan").innerHTML = afiliadosPAN + " (" + ((afiliadosPAN/nominal)*100).toFixed(2) + "%)";
+  document.getElementById("est-prd").innerHTML = afiliadosPRD + " (" + ((afiliadosPRD/nominal)*100).toFixed(2) + "%)";
+  document.getElementById("est-mc").innerHTML = afiliadosMC + " (" + ((afiliadosMC/nominal)*100).toFixed(2) + "%)";
+  document.getElementById("est-total-anaya").innerHTML = totalAnaya + " (" + ((totalAnaya/nominal)*100).toFixed(2) + "%)";
+
+  // Datos encuestas
+  var amlo = 0.412;
+  var anaya = 0.282;
+  var meade = 0.219;
+  var zavala = 0.056;
+  var otros = 0.031;
+
+  document.getElementById("enc-amlo").innerHTML = (amlo * 100).toFixed(1);
+  document.getElementById("enc-anaya").innerHTML = (anaya * 100).toFixed(1);
+  document.getElementById("enc-meade").innerHTML = (meade * 100).toFixed(1);
+  document.getElementById("enc-zavala").innerHTML = (zavala * 100).toFixed(1);
+  document.getElementById("enc-otros").innerHTML = (otros * 100).toFixed(1);
+
+  var totalVotosAmlo = 0;
+  var totalVotosAnaya = 0;
+  var totalVotosMeade = 0;
+  var totalVotosZavala = 0;
+  var totalVotosOtros = 0;
+
+  var totalGanadosAmlo = 0;
+  var totalGanadosAnaya = 0;
+  var totalGanadosMeade = 0;
+  var totalGanadosZavala = 0;
+  var totalGanadosOtros = 0;
+
+  function getRandomIntCrypto(min, max) {
+    const randomBuffer = new Uint32Array(1);
+
+    window.crypto.getRandomValues(randomBuffer);
+
+    let randomNumber = randomBuffer[0] / (0xffffffff + 1);
+
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(randomNumber * (max - min + 1)) + min;
+  }
+
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function probabilidad(min, max, random) {
+    return min <= random && random < max;
+  }
+
+  function probCandidatos(random) {
+    if(probabilidad(0, 41.2, random)) return 1;
+    if(probabilidad(41.2, 69.4, random)) return 2;
+    if(probabilidad(69.4, 91.3, random)) return 3;
+    if(probabilidad(91.3, 96.9, random)) return 4;
+    if(probabilidad(96.9, 100, random)) return 5;
+  }
+
+  function probCandidatosMarkov(random, amlo, anaya, meade, zavala) {
+    if(probabilidad(0, amlo, random)) return 1;
+    if(probabilidad(amlo, anaya, random)) return 2;
+    if(probabilidad(anaya, meade, random)) return 3;
+    if(probabilidad(meade, zavala, random)) return 4;
+    if(probabilidad(zavala, 1, random)) return 5;
+  }
+
+  function doMarkovStuff(array, matrix) {
+    var newArray = [];
+    for(var c = 0; c < MATRIXSIZE; c++) {
+      newArray[c] = 0;
+      for (var r = 0; r < MATRIXSIZE; r++) {
+        newArray[c] += matrix[r][c] * array[r];
+      }
+    }
+    return newArray;
+  }
+
+  function equalArrays(arrayA, arrayB) {
+    if(arrayA.length != arrayB.length) return false;
+
+    for(var i = 0; i < arrayA.length; i++) {
+      if(arrayA[i] != arrayB[i]) return false;
+    }
+    return true;
+  }
+
+  function operation(max) {
+    var stable = false;
+    var markovMatrix = MATRIX;
+    var oldVector = ARRAY;
+    var iteration = 0;
+
+    while(!stable) {
+      iteration++;
+      var newVector = doMarkovStuff(oldVector, markovMatrix);
+
+      if(equalArrays(newVector, oldVector)) {
+        stable = true;
+        console.log("Markov estable encontrado en iteracion: " + iteration);
+        return newVector;
+      } else {
+        oldVector = newVector;
+      }
+
+      if(iteration > max) {
+        stable = true;
+        return "Stable not found, exceeded max iterations: " + iteration;
+      }
+    }
+  }
+
+  function operationMax(max) {
+    var stable = false;
+    var markovMatrix = MATRIX;
+    var oldVector = ARRAY;
+
+    for (var i = 0; i < max; i++) {
+      var newVector = doMarkovStuff(oldVector, markovMatrix);
+
+      oldVector = newVector;
+    }
+
+    return newVector;
+  }
+
+  function simulateElection() {
+    var nsims = document.getElementById("n-sims").value;
+    console.log("Simulando " + nsims + " elecciones...");
+
+    totalVotosAmlo = 0;
+    totalVotosAnaya = 0;
+    totalVotosMeade = 0;
+    totalVotosOtros = 0;
+
+    for(var j = 0; j < nsims; j++) {
+      console.log("Simulacion #" + (j + 1));
+      var voto = 0;
+      var votosAmlo = 0;
+      var votosAnaya = 0;
+      var votosMeade = 0;
+      var votosZavala = 0;
+      var votosOtros = 0;
+
+      for(var i = 0; i < votosACandidatos; i++) {
+        voto = probCandidatos(getRandomInt(1, 100));
+        if(voto == 1) {
+          votosAmlo++;
+        }
+
+        if (voto == 2) {
+          votosAnaya++;
+        }
+
+        if (voto == 3) {
+          votosMeade++;
+        }
+
+        if (voto == 4) {
+          votosZavala++;
+        }
+
+        if (voto == 5) {
+          votosOtros++;
+        }
+      }
+      totalVotosAmlo += votosAmlo;
+      totalVotosAnaya += votosAnaya;
+      totalVotosMeade += votosMeade;
+      totalVotosZavala += votosZavala;
+      totalVotosOtros += votosOtros;
+    }
+
+    document.getElementById("votos-amlo").innerHTML = ((totalVotosAmlo/nsims)/participacion) * 100;
+    document.getElementById("votos-anaya").innerHTML = ((totalVotosAnaya/nsims)/participacion) * 100;
+    document.getElementById("votos-meade").innerHTML = ((totalVotosMeade/nsims)/participacion) * 100;
+    document.getElementById("votos-zavala").innerHTML = ((totalVotosZavala/nsims)/participacion) * 100;
+    document.getElementById("votos-otros").innerHTML = ((totalVotosOtros/nsims)/participacion) * 100;
+  }
+
+  function simulateElectionByProb() {
+    var nsimsprob = document.getElementById("n-sims-prob").value;
+    console.log("Simulando " + nsimsprob + " elecciones...");
+
+    totalGanadosAmlo = 0;
+    totalGanadosAnaya = 0;
+    totalGanadosMeade = 0;
+    totalGanadosOtros = 0;
+
+    var probAmlo = resultMarkov[0];
+    var probAnaya = resultMarkov[0] + resultMarkov[1];
+    var probMeade = probAnaya + resultMarkov[2];
+    var probZavala = probMeade + resultMarkov[3];
+
+    for(var j = 0; j < nsimsprob; j++) {
+      var voto = 0;
+      var votosAmlo = 0;
+      var votosAnaya = 0;
+      var votosMeade = 0;
+      var votosZavala = 0;
+      var votosOtros = 0;
+
+      voto = probCandidatos(getRandomInt(1, 100), probAmlo, probAnaya, probMeade, probZavala);
+      if(voto == 1) {
+        votosAmlo++;
+      }
+
+      if (voto == 2) {
+        votosAnaya++;
+      }
+
+      if (voto == 3) {
+        votosMeade++;
+      }
+
+      if (voto == 4) {
+        votosZavala++;
+      }
+
+      if (voto == 5) {
+        votosOtros++;
+      }
+      totalGanadosAmlo += votosAmlo;
+      totalGanadosAnaya += votosAnaya;
+      totalGanadosMeade += votosMeade;
+      totalGanadosZavala += votosZavala;
+      totalGanadosOtros += votosOtros;
+    }
+
+    document.getElementById("votos-prob-amlo").innerHTML = ((totalGanadosAmlo/nsimsprob) * 100).toFixed(2);
+    document.getElementById("votos-prob-anaya").innerHTML = ((totalGanadosAnaya/nsimsprob) * 100).toFixed(2);
+    document.getElementById("votos-prob-meade").innerHTML = ((totalGanadosMeade/nsimsprob) * 100).toFixed(2);
+    document.getElementById("votos-prob-zavala").innerHTML = ((totalGanadosZavala/nsimsprob) * 100).toFixed(2);
+    document.getElementById("votos-prob-otros").innerHTML = ((totalGanadosOtros/nsimsprob) * 100).toFixed(2);
+  }
+
+  function main() {
+    // MATRIX[0] = [0.86, 0.12, 0.02, 0.0, 0.0];
+    // MATRIX[1] = [0.11, 0.61, 0.28, 0.0, 0.0];
+    // MATRIX[2] = [0.03, 0.27, 0.69, 0.1, 0.0];
+    // MATRIX[3] = [0.0, 0.01, 0.01, 0.98, 0.0];
+    // MATRIX[4] = [0.0, 0.0, 0.0, 0.0, 1];
+
+    MATRIX[0] = [0.86, 0.12, 0.02, 0.0, 0.0];
+    MATRIX[1] = [0.59, 0.12, 0.28, 0.01, 0.0];
+    MATRIX[2] = [0.69, 0.28, 0.02, 0.01, 0.0];
+    MATRIX[3] = [0.99, 0.005, 0.005, 0.0, 0.0];
+    MATRIX[4] = [0.99, 0.0, 0.0, 0.01, 0.0];
+
+    ARRAY[0] = amlo;
+    ARRAY[1] = anaya;
+    ARRAY[2] = meade;
+    ARRAY[3] = zavala;
+    ARRAY[4] = otros;
+
+    resultMarkov = operation(1000);
+
+    document.getElementById("prob-amlo").innerHTML = (resultMarkov[0] * 100).toFixed(2);
+    document.getElementById("prob-anaya").innerHTML = (resultMarkov[1] * 100).toFixed(2);
+    document.getElementById("prob-meade").innerHTML = (resultMarkov[2] * 100).toFixed(2);
+    document.getElementById("prob-zavala").innerHTML = (resultMarkov[3] * 100).toFixed(2);
+    document.getElementById("prob-otros").innerHTML = (resultMarkov[4] * 100).toFixed(2);
+  }
+
+  main();
+</script>
+</body>
+</html>
