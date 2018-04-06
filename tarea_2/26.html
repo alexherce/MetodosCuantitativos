@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Tarea</title>
+</head>
+<body>
+  <h3>Simulacion</h3>
+  <div id="boxSingle"></div>
+  <script type="text/javascript">
+
+  // Funciones para calcular las probabilidades
+  function probabilidad(min, max, random) {
+    return min < random && random <= max;
+  }
+
+  function probTiempoLlegadas(random) {
+    if(probabilidad(1, 13, random)) return 0;
+    if(probabilidad(13, 30, random)) return 1;
+    if(probabilidad(30, 45, random)) return 2;
+    if(probabilidad(45, 70, random)) return 3;
+    if(probabilidad(70, 90, random)) return 4;
+    if(probabilidad(90, 100, random)) return 5;
+  }
+
+  function main() {
+    // PENDIENTE
+  }
+
+  main();
+
+</script>
+</body>
+</html>

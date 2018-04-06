@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>27</title>
+</head>
+<body>
+  <script type="text/javascript">
+  const HORAS_DE_TRABAJO = 2.45
+  function el_doc(){
+    var rand = Math.random();
+    var tiempo = 0;
+    var tiemp = [15, 20, 15, 10, 30, 15, 20, 15];
+    if(rand <= .20){
+      tiempo = tiempo;
+    }else if(rand > .20 && rand <= .30){
+      tiempo = tiempo;
+    }else if(rand > .30 && rand <= .70){
+      tiempo = tiempo;
+    }else if(rand > .70 && rand <= .95){
+      tiempo += 10;
+    }else if(rand > .95 && rand <= 1){
+      tiempo += 20;
+    }
+    for (var i = 0; i < tiemp.length; i++) {
+      if(rand <= .15){
+        tiempo += tiemp[i] * .80;
+      }else if(rand > .15 && rand <= .65){
+        tiempo += tiemp[i];
+      }else if(rand > .65 && rand <= .90){
+        tiempo += tiemp[i] * 1.20;
+      }else if(rand > .90 && rand <= 1){
+        tiempo += tiemp[i] * 1.40;
+      }
+    }
+    if((tiempo/60) > HORAS_DE_TRABAJO){
+      console.log("el aivon lo va a dejar");
+    }else{
+      console.log("El doctor llegará a su vuelo");
+    }
+  }
+  el_doc();
+  </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>28</title>
+</head>
+<body>
+
+  <script type="text/javascript">
+    const SEMANAS = 20;
+    const MAX_CAP = 25000;
+    function surtir_acero(){
+      var cant_acero = 0;
+      var mas_espacio = 0;
+      for( var i = 0; i < SEMANAS ; i++){
+        rand = Math.random();
+        rand1 = Math.random();
+        if(cant_acero < 0){
+          i -= 1;
+        }
+        if(rand <= .45){
+          cant_acero += 8000;
+        }else if(rand > .45 && rand <= 1){
+          cant_acero += 11000;
+        }
+        if(rand1 <= .05){
+          cant_acero -= 6000;
+        }else if(rand1 > .05 && rand1 <= .20){
+          cant_acero -= 7000;
+        }else if(rand1 > .20 && rand1 <= .40){
+          cant_acero -= 8000;
+        }else if(rand1 > .40 && rand1 <= .70){
+          cant_acero -= 9000;
+        }else if(rand1 > .70 && rand1 <= .90){
+          cant_acero -= 10000;
+        }else if(rand1 > .90 && rand1 <= 1){
+          cant_acero -= 11000;
+        }
+        if(cant_acero > 25000){
+          mas_espacio += cant_acero - 25000;
+        }
+        console.log("Cantidad de acero que tenemos esta semana es de " + cant_acero + " pies cuadrados");
+      }
+      if (mas_espacio > 0) {
+        console.log("Plenor debería agregar " + mas_espacio + " pies cuadrados ");
+      }
+    }
+  surtir_acero();
+  </script>
+</body>
+</html>
