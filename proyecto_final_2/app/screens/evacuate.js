@@ -30,9 +30,7 @@ export class EvacuateScreen extends Component {
     this.getNetworkData = this.getNetworkData.bind(this);
     this.state = {
       networkDetails: {
-        ssid: "Not Available",
         bssid: "Not Available",
-        prevSsid: "",
         prevBssid: "",
       },
       refresh: 0,
@@ -130,14 +128,6 @@ export class EvacuateScreen extends Component {
 
   getNetworkData = () => {
     console.log("Refresh Network Data");
-    // Get SSID
-    NetworkInfo.getSSID(ssid => {
-      this.setState((prevState) => {
-        return {
-          networkDetails: update(this.state.networkDetails, {ssid: {$set: ssid}, prevSsid: {$set: prevState.networkDetails.ssid}})
-        };
-      })
-    });
 
     // Get BSSID
     NetworkInfo.getBSSID(bssid => {
@@ -183,8 +173,7 @@ export class EvacuateScreen extends Component {
               <Text>La ubicación se calcula con el Wi-Fi de tu telefono, es necesario estar conectado a la red Tec o ITESM. Si quieres una nueva ruta, presiona el botón de recargar.</Text>
             </View>
             <View rkCardFooter>
-              <RkButton rkType='small outline'>Learn More</RkButton>
-              <RkButton rkType='small'>Read later</RkButton>
+              <RkButton rkType='dark small' onPress={() => this.props.navigation.navigate('How')}>Mas Info</RkButton>
             </View>
           </RkCard>
 

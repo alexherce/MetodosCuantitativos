@@ -12,8 +12,8 @@ export class MainScreen extends Component {
     return (
       <View style={styles.container}>
         <ScrollView automaticallyAdjustContentInsets={true} style={styles.screen}>
-          <Text style={styles.h1}>
-            ¿Sismo? Qué debes hacer
+          <Text style={styles.bigblack}>
+            ¿Sismo? Qué hacer
           </Text>
 
           <RkTabView rkType='main'>
@@ -47,7 +47,7 @@ export class MainScreen extends Component {
             </RkTabView.Tab>
           </RkTabView>
 
-          <RkButton rkType='danger xlarge' style={styles.button} onPress={() => this.props.navigation.navigate('Evacua')}>Ver Ruta de Evacuación</RkButton>
+          <RkButton rkType='danger xlarge' style={styles.button} onPress={() => this.props.navigation.navigate('Evacua')}>Ruta de Evacuación</RkButton>
 
         </ScrollView>
       </View>
@@ -82,5 +82,11 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 10,
+  },
+  bigblack: {
+    color: 'black',
+    fontWeight: 'bold',
+    fontSize: 30,
+    textAlign: 'center'
   }
 });

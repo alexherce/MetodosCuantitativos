@@ -8,33 +8,12 @@ import {bootstrap} from './app/screens/themeBootstrapper'
 
 bootstrap();
 
-class DetailsScreen extends Component {
-  render() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Details Screen</Text>
-      </View>
-    );
-  }
-}
-
-class AboutScreen extends Component {
-  render() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>About Screen</Text>
-      </View>
-    );
-  }
-}
+console.ignoredYellowBox = ['Warning: isMounted(...)', 'Remote debugger'];
 
 const HomeStack = StackNavigator(
   {
     Home: {
       screen: Screens.MainScreen,
-    },
-    Details: {
-      screen: DetailsScreen,
     },
   },
   {
@@ -73,15 +52,21 @@ const EvacuateStack = StackNavigator(
 
 const InfoStack = StackNavigator(
   {
-    Settings: {
-      screen: Screens.SettingsScreen,
+    Information: {
+      screen: Screens.InformationScreen,
     },
-    About: {
-      screen: AboutScreen,
+    How: {
+      screen: Screens.HowScreen,
+    },
+    Team: {
+      screen: Screens.TeamScreen,
+    },
+    Contact: {
+      screen: Screens.ContactScreen,
     },
   },
   {
-    initialRouteName: 'Settings',
+    initialRouteName: 'Information',
     navigationOptions: {
       headerStyle: {
         backgroundColor: '#f4511e',

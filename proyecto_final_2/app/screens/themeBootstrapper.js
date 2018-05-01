@@ -28,4 +28,10 @@ export let bootstrap = () => {
   borderColor: '#000'
 });
 
+RkTheme.setType('RkButton', 'dark', {
+  backgroundColor: 'black',
+  color: 'white',
+  borderRadius: 10,
+});
+
 };
