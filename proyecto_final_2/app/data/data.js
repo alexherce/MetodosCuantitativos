@@ -1936,3 +1936,303 @@ export const dataTec = [
     nextPiso: 6
   }
 ];
+
+export const dataStairs = [
+  {
+    edificio: 1,
+    piso: 1,
+    info: [
+      {
+        data: "Esquina del edificio al lado izquierdo del Starbucks"
+      },
+      {
+        data: "Junto al pasillo de conexion a Aulas 2"
+      }
+    ]
+  },
+  {
+    edificio: 1,
+    piso: 2,
+    info: [
+      {
+        data: "Esquina del edificio entre CASA y Programas Internacionales"
+      },
+      {
+        data: "Junto al pasillo de conexion a Aulas 2 y Sala de profesores"
+      }
+    ]
+  },
+  {
+    edificio: 1,
+    piso: 3,
+    info: [
+      {
+        data: "Esquina del edificio al lado izquierdo del Comedor Ejecutivo"
+      }
+    ]
+  },
+  {
+    edificio: 1,
+    piso: 4,
+    info: [
+      {
+        data: "Esquina del edificio entre 1402 y Laboratorio de Fisica"
+      }
+    ]
+  },
+  {
+    edificio: 1,
+    piso: 5,
+    info: [
+      {
+        data: "En la esquina opuesta del pasillo de conexion a Aulas 2"
+      }
+    ]
+  },
+  {
+    edificio: 2,
+    piso: 0,
+    info: [
+      {
+        data: "Junto a LocaTec"
+      },
+      {
+        data: "Junto al pasillo de conexion a Aulas 3"
+      }
+    ]
+  },
+  {
+    edificio: 2,
+    piso: 1,
+    info: [
+      {
+        data: "Bajar: Junto al pasillo de conexion a Aulas 1"
+      },
+      {
+        data: "Bajar: Junto al pasillo de conexion a Aulas 3"
+      },
+      {
+        data: "Subir: En el centro del edificio"
+      }
+    ]
+  },
+  {
+    edificio: 2,
+    piso: 2,
+    info: [
+      {
+        data: "Bajar: Frente a la sala de consejo"
+      },
+      {
+        data: "Subir: Frente al salon 2201, frente al pasillo de conexion a Aulas 1"
+      }
+    ]
+  },
+  {
+    edificio: 2,
+    piso: 3,
+    info: [
+      {
+        data: "Frente al salon 3301, frente al pasillo de conexion a Aulas 1"
+      }
+    ]
+  },
+  {
+    edificio: 2,
+    piso: 4,
+    info: [
+      {
+        data: "Frente al pasillo de conexion a Aulas 1"
+      }
+    ]
+  },
+  {
+    edificio: 3,
+    piso: 0,
+    info: [
+      {
+        data: "Junto a los baños y el elevador"
+      }
+    ]
+  },
+  {
+    edificio: 3,
+    piso: 1,
+    info: [
+      {
+        data: "Junto a  los baños y el elevador"
+      }
+    ]
+  },
+  {
+    edificio: 3,
+    piso: 2,
+    info: [
+      {
+        data: "Junto a los baños y el elevador"
+      }
+    ]
+  },
+  {
+    edificio: 3,
+    piso: 3,
+    info: [
+      {
+        data: "Junto a los baños y el elevador"
+      }
+    ]
+  },
+  {
+    edificio: 3,
+    piso: 0,
+    info: [
+      {
+        data: "Junto a los baños y el elevador"
+      }
+    ]
+  },
+  {
+    edificio: 5,
+    piso: 3,
+    info: [
+      {
+        data: "Escaleras de emergencia ubicadas en el pasillo de los elevadores"
+      }
+    ]
+  },
+  {
+    edificio: 5,
+    piso: 4,
+    info: [
+      {
+        data: "Escaleras de emergencia ubicadas en el pasillo de los elevadores"
+      }
+    ]
+  },
+  {
+    edificio: 5,
+    piso: 5,
+    info: [
+      {
+        data: "Escaleras de emergencia ubicadas en el pasillo de los elevadores"
+      }
+    ]
+  },
+  {
+    edificio: 5,
+    piso: 6,
+    info: [
+      {
+        data: "Escaleras de emergencia ubicadas en el pasillo de los elevadores"
+      }
+    ]
+  },
+  {
+    edificio: 5,
+    piso: 7,
+    info: [
+      {
+        data: "Escaleras de emergencia ubicadas en el pasillo de los elevadores"
+      }
+    ]
+  }
+];
+
+export const dataExits = [
+  {
+    edificio: 1,
+    piso: 1,
+    info: [
+      {
+        data: "Junto al pasillo de conexion a Aulas 2"
+      },
+      {
+        data: "Junto a las escaleras del lado izquiero del Starbucks"
+      }
+    ]
+  },
+  {
+    edificio: 1,
+    piso: 2,
+    info: [
+      {
+        data: "Entrada principal entre CASA y Porrua"
+      }
+    ]
+  },
+  {
+    edificio: 2,
+    piso: 0,
+    info: [
+      {
+        data: "Junto a LocaTec"
+      },
+      {
+        data: "Junto al pasillo de conexion a Aulas 3"
+      }
+    ]
+  },
+  {
+    edificio: 2,
+    piso: 1,
+    info: [
+      {
+        data: "Entre las oficinas y la sala de finanzas, hacia la explanada"
+      },
+      {
+        data: "En el pasillo de conexion a Aulas 3"
+      }
+    ]
+  },
+  {
+    edificio: 3,
+    piso: 0,
+    info: [
+      {
+        data: "Junto al pasillo de conexion a Aulas 2"
+      }
+    ]
+  },
+  {
+    edificio: 3,
+    piso: 1,
+    info: [
+      {
+        data: "Junto a LocaTec"
+      },
+      {
+        data: "En al pasillo de conexion a Aulas 2"
+      }
+    ]
+  },
+  {
+    edificio: 5,
+    piso: 0,
+    info: [
+      {
+        data: "Salida hacia explanada de fumadores, por la sala de arquitectura"
+      }
+    ]
+  },
+  {
+    edificio: 5,
+    piso: 1,
+    info: [
+      {
+        data: "Salida hacia la explanada, a un costado de la Recepcion"
+      }
+    ]
+  },
+  {
+    edificio: 5,
+    piso: 2,
+    info: [
+      {
+        data: "Salida principal hacia la fuente, junto a los elevadores"
+      },
+      {
+        data: "Salida por Cafe punta del Cielo"
+      }
+    ]
+  },
+]
