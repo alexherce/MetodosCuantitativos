@@ -88,25 +88,16 @@ export class EvacuateScreen extends Component {
     var currentPos = {edificio: dataTec[bssidIndex].edificio, piso: dataTec[bssidIndex].piso};
     var filter = {edificio: dataTec[bssidIndex].nextEdificio, piso: dataTec[bssidIndex].nextPiso};
 
-    if (filter.edificio == "exit") {
-      tempRoute.push({
-        nombre: "Salida",
-        currentPos: currentPos,
-        edificio: currentPos.edificio,
-        piso: filter.piso,
-        instrucciones: "Sal del edificio por",
-        stairInfo: [],
-        exitInfo: []
+    do {
+      filterResults = dataTec.filter(function(item) {
+        for (var key in filter) {
+          if (item[key] === undefined || item[key] != filter[key])
+          return false;
+        }
+        return true;
       });
-    } else {
-      do {
-        filterResults = dataTec.filter(function(item) {
-          for (var key in filter) {
-            if (item[key] === undefined || item[key] != filter[key])
-            return false;
-          }
-          return true;
-        });
+
+      if(filterResults.length > 0) {
 
         if(filterResults.length > 1) {
           filterIndex = this.getRandomInt(0, filterResults.length - 1);
@@ -146,39 +137,40 @@ export class EvacuateScreen extends Component {
         tempRoute.push(filterResults[filterIndex]);
         currentPos = {edificio: filterResults[filterIndex].edificio, piso: filterResults[filterIndex].piso};
         filter = {edificio: filterResults[filterIndex].nextEdificio, piso: filterResults[filterIndex].nextPiso};
-
-        if (filter.edificio == "exit") {
-          exited = true;
-        }
-      } while (!exited);
-
-      var exitFilter = {edificio: currentPos.edificio, piso: filter.piso};
-      var filterExits = dataExits.filter(function(item) {
-        for (var key in exitFilter) {
-          if (item[key] === undefined || item[key] != exitFilter[key])
-          return false;
-        }
-        return true;
-      });
-
-      var exits = [];
-      if (filterExits.length > 0) {
-        exits = filterExits[0].info;
       }
 
-      tempRoute.push({
-        nombre: "Salida",
-        currentPos: currentPos,
-        edificio: currentPos.edificio,
-        piso: filter.piso,
-        instrucciones: "Sal del edificio por",
-        stairInfo: [],
-        exitInfo: exits
-      });
+      if (filter.edificio == "exit") {
+        exited = true;
+      }
+    } while (!exited);
+
+    // Find exit information
+    var exitFilter = {edificio: currentPos.edificio, piso: filter.piso};
+    var filterExits = dataExits.filter(function(item) {
+      for (var key in exitFilter) {
+        if (item[key] === undefined || item[key] != exitFilter[key])
+        return false;
+      }
+      return true;
+    });
+
+    var exits = [];
+    if (filterExits.length > 0) {
+      exits = filterExits[0].info;
     }
 
-    console.log(tempRoute);
+    // Push exit instruction
+    tempRoute.push({
+      nombre: "Salida",
+      currentPos: currentPos,
+      edificio: currentPos.edificio,
+      piso: filter.piso,
+      instrucciones: "Sal del edificio por",
+      stairInfo: [],
+      exitInfo: exits
+    });
 
+    // Add route and current location to state
     this.setState({
       currentLocation: update(this.state.currentLocation, {$set: dataTec[bssidIndex]}),
       route: update(this.state.route, {$push: tempRoute})
@@ -219,7 +211,7 @@ export class EvacuateScreen extends Component {
             this.planRoute(index);
           } else {
             Alert.alert(
-              '¡Error en tu ubicación!',
+              'No se econtró tu ubicación',
               'No se pudo encontrar tu ubicación con Wi-Fi. Para que la app funcione, necesitas estar conectado a la red Tec o ITESM dentro del campus y estar en alguno de los edificios de aulas.',
               [
                 {text: 'OK', onPress: () => console.log('OK')},
@@ -232,8 +224,8 @@ export class EvacuateScreen extends Component {
         console.log("Not connected to wifi");
 
         Alert.alert(
-          '¡Error en la conexión!',
-          'No estas conectado al Wi-Fi. Para que la app funcione, necesitas estar conectado a la red Tec o ITESM dentro del campus.',
+          'No estas conectado al Wi-Fi',
+          'Para que la app funcione, necesitas estar conectado a la red Tec o ITESM dentro del campus.',
           [
             {text: 'OK', onPress: () => console.log('OK')},
           ],
