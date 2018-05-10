@@ -1785,7 +1785,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N5-5501",
-    bssid: "54:a2:74:04:8d:c0",
+    bssid: "54:a2:74:04:8d:cf",
     edificio: 5,
     piso: 5,
     nextEdificio: 5,
