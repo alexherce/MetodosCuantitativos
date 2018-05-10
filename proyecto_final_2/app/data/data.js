@@ -89,7 +89,7 @@ export const dataTec = [
   },
   {
     nombre: "A1N2-CANI",
-    bssid: "1c:e6:c7:0d:53:c0",
+    bssid: "1c:e6:c7:d:53:c0",
     edificio: 1,
     piso: 2,
     nextEdificio: "exit",
@@ -121,7 +121,7 @@ export const dataTec = [
   },
   {
     nombre: "A1N2-Plaza-Libreria",
-    bssid: "84:b8:02:98:e1:50",
+    bssid: "84:b8:2:98:e1:50",
     edificio: 1,
     piso: 2,
     nextEdificio: "exit",
@@ -129,7 +129,7 @@ export const dataTec = [
   },
   {
     nombre: "A1N2-SalaProfesores",
-    bssid: "54:a2:74:03:29:00",
+    bssid: "54:a2:74:3:29:0",
     edificio: 1,
     piso: 2,
     nextEdificio: 1,
@@ -153,7 +153,7 @@ export const dataTec = [
   },
   {
     nombre: "A1N3-1305",
-    bssid: "54:a2:74:22:d1:00",
+    bssid: "54:a2:74:22:d1:0",
     edificio: 1,
     piso: 3,
     nextEdificio: 1,
@@ -193,7 +193,7 @@ export const dataTec = [
   },
   {
     nombre: "A1N4-1401",
-    bssid: "54:a2:74:38:0d:40",
+    bssid: "54:a2:74:38:d:40",
     edificio: 1,
     piso: 4,
     nextEdificio: 1,
@@ -201,7 +201,7 @@ export const dataTec = [
   },
   {
     nombre: "A1N4-1403",
-    bssid: "54:a2:74:10:40:00",
+    bssid: "54:a2:74:10:40:0",
     edificio: 1,
     piso: 4,
     nextEdificio: 1,
@@ -217,7 +217,7 @@ export const dataTec = [
   },
   {
     nombre: "A1N4-Oficina-2",
-    bssid: "54:a2:74:08:46:80",
+    bssid: "54:a2:74:8:46:80",
     edificio: 1,
     piso: 4,
     nextEdificio: 1,
@@ -265,7 +265,7 @@ export const dataTec = [
   },
   {
     nombre: "A1N5-Sala-360",
-    bssid: "54:a2:74:0f:eb:e0",
+    bssid: "54:a2:74:f:eb:e0",
     edificio: 1,
     piso: 5,
     nextEdificio: 1,
@@ -289,7 +289,7 @@ export const dataTec = [
   },
   {
     nombre: "A1N5-Terraza",
-    bssid: "1c:e6:c7:0d:52:90",
+    bssid: "1c:e6:c7:d:52:90",
     edificio: 1,
     piso: 5,
     nextEdificio: 1,
@@ -297,7 +297,7 @@ export const dataTec = [
   },
   {
     nombre: "A2N0-2001",
-    bssid: "7c:0e:ce:6c:df:a0",
+    bssid: "7c:e:ce:6c:df:a0",
     edificio: 2,
     piso: 0,
     nextEdificio: "exit",
@@ -305,7 +305,7 @@ export const dataTec = [
   },
   {
     nombre: "A2N0-2005",
-    bssid: "f0:7f:06:9c:d1:b0",
+    bssid: "f0:7f:6:9c:d1:b0",
     edificio: 2,
     piso: 0,
     nextEdificio: "exit",
@@ -321,7 +321,7 @@ export const dataTec = [
   },
   {
     nombre: "A2N0-2009",
-    bssid: "54:a2:74:0f:0b:d0",
+    bssid: "54:a2:74:f:b:d0",
     edificio: 2,
     piso: 0,
     nextEdificio: "exit",
@@ -361,7 +361,7 @@ export const dataTec = [
   },
   {
     nombre: "A2N0-PlantaFisica",
-    bssid: "54:a2:74:08:47:b0",
+    bssid: "54:a2:74:8:47:b0",
     edificio: 2,
     piso: 0,
     nextEdificio: "exit",
@@ -377,7 +377,7 @@ export const dataTec = [
   },
   {
     nombre: "A2N0-Plaza-2006",
-    bssid: "78:ba:f9:f8:0e:a0",
+    bssid: "78:ba:f9:f8:e:a0",
     edificio: 2,
     piso: 0,
     nextEdificio: "exit",
@@ -417,7 +417,7 @@ export const dataTec = [
   },
   {
     nombre: "A2N1-Creativity",
-    bssid: "54:a2:74:0f:e6:f0",
+    bssid: "54:a2:74:f:e6:f0",
     edificio: 2,
     piso: 1,
     nextEdificio: "exit",
@@ -425,7 +425,7 @@ export const dataTec = [
   },
   {
     nombre: "A2N1-FTR",
-    bssid: "54:a2:74:38:0e:b0",
+    bssid: "54:a2:74:38:e:b0",
     edificio: 2,
     piso: 1,
     nextEdificio: "exit",
@@ -457,7 +457,7 @@ export const dataTec = [
   },
   {
     nombre: "A2N2-2201",
-    bssid: "54:a2:74:08:41:30",
+    bssid: "54:a2:74:8:41:30",
     edificio: 2,
     piso: 2,
     nextEdificio: 1,
@@ -465,7 +465,7 @@ export const dataTec = [
   },
   {
     nombre: "A2N2-2202",
-    bssid: "f0:7f:06:a3:f9:50",
+    bssid: "f0:7f:6:a3:f9:50",
     edificio: 2,
     piso: 2,
     nextEdificio: 1,
@@ -473,7 +473,7 @@ export const dataTec = [
   },
   {
     nombre: "A2N2-Gesell",
-    bssid: "54:a2:74:0a:07:a0",
+    bssid: "54:a2:74:a:7:a0",
     edificio: 2,
     piso: 2,
     nextEdificio: 1,
@@ -489,7 +489,7 @@ export const dataTec = [
   },
   {
     nombre: "A2N2-Oficina-5",
-    bssid: "54:a2:74:04:85:10",
+    bssid: "54:a2:74:4:85:10",
     edificio: 2,
     piso: 2,
     nextEdificio: 2,
@@ -513,7 +513,7 @@ export const dataTec = [
   },
   {
     nombre: "A2N2-SalaNegocios",
-    bssid: "54:a2:74:31:4d:00",
+    bssid: "54:a2:74:31:4d:0",
     edificio: 2,
     piso: 2,
     nextEdificio: 2,
@@ -521,7 +521,7 @@ export const dataTec = [
   },
   {
     nombre: "A2N3-2301",
-    bssid: "54:a2:74:03:2c:20",
+    bssid: "54:a2:74:3:2c:20",
     edificio: 2,
     piso: 3,
     nextEdificio: 2,
@@ -537,7 +537,7 @@ export const dataTec = [
   },
   {
     nombre: "A2N3-2305",
-    bssid: "54:a2:74:03:24:80",
+    bssid: "54:a2:74:3:24:80",
     edificio: 2,
     piso: 3,
     nextEdificio: 2,
@@ -545,7 +545,7 @@ export const dataTec = [
   },
   {
     nombre: "A2N3-2306",
-    bssid: "54:a2:74:04:24:10",
+    bssid: "54:a2:74:4:24:10",
     edificio: 2,
     piso: 3,
     nextEdificio: 2,
@@ -553,7 +553,7 @@ export const dataTec = [
   },
   {
     nombre: "A2N3-Oficina-1",
-    bssid: "54:a2:74:04:84:b0",
+    bssid: "54:a2:74:4:84:b0",
     edificio: 2,
     piso: 3,
     nextEdificio: 2,
@@ -561,7 +561,7 @@ export const dataTec = [
   },
   {
     nombre: "A2N3-Oficina-7",
-    bssid: "f0:7f:06:81:40:30",
+    bssid: "f0:7f:6:81:40:30",
     edificio: 2,
     piso: 3,
     nextEdificio: 2,
@@ -569,7 +569,7 @@ export const dataTec = [
   },
   {
     nombre: "A2N4-Oficina-13",
-    bssid: "54:a2:74:38:0d:30",
+    bssid: "54:a2:74:38:d:30",
     edificio: 2,
     piso: 4,
     nextEdificio: 2,
@@ -585,7 +585,7 @@ export const dataTec = [
   },
   {
     nombre: "A2N4-Oficina-18",
-    bssid: "54:a2:74:26:f8:00",
+    bssid: "54:a2:74:26:f8:0",
     edificio: 2,
     piso: 4,
     nextEdificio: 2,
@@ -633,7 +633,7 @@ export const dataTec = [
   },
   {
     nombre: "A2N4-Recepcion",
-    bssid: "54:a2:74:38:0f:20",
+    bssid: "54:a2:74:38:f:20",
     edificio: 2,
     piso: 4,
     nextEdificio: 2,
@@ -641,7 +641,7 @@ export const dataTec = [
   },
   {
     nombre: "A3-Sotano",
-    bssid: "e0:0e:da:e8:1d:e0",
+    bssid: "e0:e:da:e8:1d:e0",
     edificio: 3,
     piso: "S",
     nextEdificio: 3,
@@ -657,7 +657,7 @@ export const dataTec = [
   },
   {
     nombre: "A3N0-AM-Atras",
-    bssid: "54:a2:74:0a:04:40",
+    bssid: "54:a2:74:a:4:40",
     edificio: 3,
     piso: 0,
     nextEdificio: "exit",
@@ -665,7 +665,7 @@ export const dataTec = [
   },
   {
     nombre: "A3N0-AM-Podium",
-    bssid: "54:a2:74:0a:08:00",
+    bssid: "54:a2:74:a:8:0",
     edificio: 3,
     piso: 0,
     nextEdificio: "exit",
@@ -681,7 +681,7 @@ export const dataTec = [
   },
   {
     nombre: "A3N0-Audio-Grande",
-    bssid: "54:a2:74:08:52:00",
+    bssid: "54:a2:74:8:52:0",
     edificio: 3,
     piso: 0,
     nextEdificio: "exit",
@@ -721,7 +721,7 @@ export const dataTec = [
   },
   {
     nombre: "A3N0-TV",
-    bssid: "54:a2:74:09:e5:10",
+    bssid: "54:a2:74:9:e5:10",
     edificio: 3,
     piso: 0,
     nextEdificio: "exit",
@@ -761,7 +761,7 @@ export const dataTec = [
   },
   {
     nombre: "A3N1-Oficina-2",
-    bssid: "54:a2:74:08:52:60",
+    bssid: "54:a2:74:8:52:60",
     edificio: 3,
     piso: 1,
     nextEdificio: 2,
@@ -785,7 +785,7 @@ export const dataTec = [
   },
   {
     nombre: "A3N2-Oficina-10",
-    bssid: "f0:7f:06:dd:8c:20",
+    bssid: "f0:7f:6:dd:8c:20",
     edificio: 3,
     piso: 2,
     nextEdificio: 2,
@@ -793,7 +793,7 @@ export const dataTec = [
   },
   {
     nombre: "A3N2-Oficina-16",
-    bssid: "54:a2:74:09:e0:10",
+    bssid: "54:a2:74:9:e0:10",
     edificio: 3,
     piso: 2,
     nextEdificio: 2,
@@ -801,7 +801,7 @@ export const dataTec = [
   },
   {
     nombre: "A3N2-Oficina-2",
-    bssid: "54:a2:74:03:2b:30",
+    bssid: "54:a2:74:3:2b:30",
     edificio: 3,
     piso: 2,
     nextEdificio: 2,
@@ -809,7 +809,7 @@ export const dataTec = [
   },
   {
     nombre: "A3N2-Oficina-23",
-    bssid: "f0:7f:06:9a:50:50",
+    bssid: "f0:7f:6:9a:50:50",
     edificio: 3,
     piso: 2,
     nextEdificio: 2,
@@ -817,7 +817,7 @@ export const dataTec = [
   },
   {
     nombre: "A3N2-Oficina-32",
-    bssid: "54:a2:74:04:8f:20",
+    bssid: "54:a2:74:4:8f:20",
     edificio: 3,
     piso: 2,
     nextEdificio: 2,
@@ -841,7 +841,7 @@ export const dataTec = [
   },
   {
     nombre: "A3N2-Oficina-6",
-    bssid: "54:a2:74:09:f1:90",
+    bssid: "54:a2:74:9:f1:90",
     edificio: 3,
     piso: 2,
     nextEdificio: 2,
@@ -857,7 +857,7 @@ export const dataTec = [
   },
   {
     nombre: "A3N3-3305",
-    bssid: "54:a2:74:26:f9:00",
+    bssid: "54:a2:74:26:f9:0",
     edificio: 3,
     piso: 3,
     nextEdificio: 3,
@@ -881,7 +881,7 @@ export const dataTec = [
   },
   {
     nombre: "A3N3-Oficina-1",
-    bssid: "54:a2:74:08:49:30",
+    bssid: "54:a2:74:8:49:30",
     edificio: 3,
     piso: 3,
     nextEdificio: 3,
@@ -889,7 +889,7 @@ export const dataTec = [
   },
   {
     nombre: "A3N3-Oficina-5",
-    bssid: "54:a2:74:0a:08:50",
+    bssid: "54:a2:74:a:8:50",
     edificio: 3,
     piso: 3,
     nextEdificio: 3,
@@ -897,7 +897,7 @@ export const dataTec = [
   },
   {
     nombre: "A3N4-Aulas-2",
-    bssid: "54:a2:74:09:e7:00",
+    bssid: "54:a2:74:9:e7:0",
     edificio: 3,
     piso: 4,
     nextEdificio: 3,
@@ -921,7 +921,7 @@ export const dataTec = [
   },
   {
     nombre: "A3N4-Prepa",
-    bssid: "54:a2:74:09:ec:30",
+    bssid: "54:a2:74:9:ec:30",
     edificio: 3,
     piso: 4,
     nextEdificio: 3,
@@ -937,7 +937,7 @@ export const dataTec = [
   },
   {
     nombre: "A3N4-Sala-Innovar",
-    bssid: "54:a2:74:0f:10:50",
+    bssid: "54:a2:74:f:10:50",
     edificio: 3,
     piso: 4,
     nextEdificio: 3,
@@ -945,7 +945,7 @@ export const dataTec = [
   },
   {
     nombre: "A3N4-TI",
-    bssid: "54:a2:74:03:2f:50",
+    bssid: "54:a2:74:3:2f:50",
     edificio: 3,
     piso: 4,
     nextEdificio: 3,
@@ -953,7 +953,7 @@ export const dataTec = [
   },
   {
     nombre: "A4N1-4101",
-    bssid: "54:a2:74:03:2b:a0",
+    bssid: "54:a2:74:3:2b:a0",
     edificio: 4,
     piso: 1,
     nextEdificio: "exit",
@@ -977,7 +977,7 @@ export const dataTec = [
   },
   {
     nombre: "A4N1-4104",
-    bssid: "54:a2:74:08:47:a0",
+    bssid: "54:a2:74:8:47:a0",
     edificio: 4,
     piso: 1,
     nextEdificio: "exit",
@@ -1001,7 +1001,7 @@ export const dataTec = [
   },
   {
     nombre: "A4N1-4107",
-    bssid: "54:a2:74:03:2c:10",
+    bssid: "54:a2:74:3:2c:10",
     edificio: 4,
     piso: 1,
     nextEdificio: "exit",
@@ -1009,7 +1009,7 @@ export const dataTec = [
   },
   {
     nombre: "A4N1-4108",
-    bssid: "54:a2:74:04:2d:50",
+    bssid: "54:a2:74:4:2d:50",
     edificio: 4,
     piso: 1,
     nextEdificio: "exit",
@@ -1017,7 +1017,7 @@ export const dataTec = [
   },
   {
     nombre: "A4N1-Biblioteca-Sala2",
-    bssid: "54:a2:74:09:e2:d0",
+    bssid: "54:a2:74:9:e2:d0",
     edificio: 4,
     piso: 1,
     nextEdificio: "exit",
@@ -1025,7 +1025,7 @@ export const dataTec = [
   },
   {
     nombre: "A4N1-Biblioteca-Sala5",
-    bssid: "54:a2:74:0a:07:b0",
+    bssid: "54:a2:74:a:7:b0",
     edificio: 4,
     piso: 1,
     nextEdificio: "exit",
@@ -1033,7 +1033,7 @@ export const dataTec = [
   },
   {
     nombre: "A4N1-CTI",
-    bssid: "54:a2:74:0f:10:90",
+    bssid: "54:a2:74:f:10:90",
     edificio: 4,
     piso: 1,
     nextEdificio: "exit",
@@ -1049,7 +1049,7 @@ export const dataTec = [
   },
   {
     nombre: "A4N1-Oficinas",
-    bssid: "54:a2:74:0a:08:90",
+    bssid: "54:a2:74:a:8:90",
     edificio: 4,
     piso: 1,
     nextEdificio: "exit",
@@ -1121,7 +1121,7 @@ export const dataTec = [
   },
   {
     nombre: "A4N1-SalaJuntas",
-    bssid: "84:b8:02:ce:b6:a0",
+    bssid: "84:b8:2:ce:b6:a0",
     edificio: 4,
     piso: 1,
     nextEdificio: "exit",
@@ -1129,7 +1129,7 @@ export const dataTec = [
   },
   {
     nombre: "A4N2-4201",
-    bssid: "f0:7f:06:95:6a:40",
+    bssid: "f0:7f:6:95:6a:40",
     edificio: 4,
     piso: 2,
     nextEdificio: "exit",
@@ -1265,7 +1265,7 @@ export const dataTec = [
   },
   {
     nombre: "A4N3-4307",
-    bssid: "84:b8:02:ed:ad:f0",
+    bssid: "84:b8:2:ed:ad:f0",
     edificio: 4,
     piso: 3,
     nextEdificio: 4,
@@ -1377,7 +1377,7 @@ export const dataTec = [
   },
   {
     nombre: "A4N5-4504",
-    bssid: "54:a2:74:31:4e:00",
+    bssid: "54:a2:74:31:4e:0",
     edificio: 4,
     piso: 5,
     nextEdificio: 4,
@@ -1401,7 +1401,7 @@ export const dataTec = [
   },
   {
     nombre: "A4N5-4508",
-    bssid: "e0:0e:da:f0:b5:a0",
+    bssid: "e0:e:da:f0:b5:a0",
     edificio: 4,
     piso: 5,
     nextEdificio: 4,
@@ -1425,7 +1425,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N0-5001",
-    bssid: "54:a2:74:0a:00:80",
+    bssid: "54:a2:74:a:0:80",
     edificio: 5,
     piso: 0,
     nextEdificio: "exit",
@@ -1433,7 +1433,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N0-5002",
-    bssid: "40:01:7a:01:06:00",
+    bssid: "40:1:7a:1:6:0",
     edificio: 5,
     piso: 0,
     nextEdificio: "exit",
@@ -1441,7 +1441,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N0-Claustro",
-    bssid: "54:a2:74:0f:11:30",
+    bssid: "54:a2:74:f:11:30",
     edificio: 5,
     piso: 0,
     nextEdificio: "exit",
@@ -1457,7 +1457,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N0-Peliculas",
-    bssid: "84:b8:02:88:65:d0",
+    bssid: "84:b8:2:88:65:d0",
     edificio: 5,
     piso: 0,
     nextEdificio: "exit",
@@ -1513,7 +1513,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N1-LC2",
-    bssid: "f0:7f:06:95:16:d0",
+    bssid: "f0:7f:6:95:16:d0",
     edificio: 5,
     piso: 1,
     nextEdificio: "exit",
@@ -1585,7 +1585,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N2-CASA-EGADE",
-    bssid: "54:a2:74:03:26:90",
+    bssid: "54:a2:74:3:26:90",
     edificio: 5,
     piso: 2,
     nextEdificio: "exit",
@@ -1593,7 +1593,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N2-Lobby-Banos",
-    bssid: "54:a2:74:09:f8:50",
+    bssid: "54:a2:74:9:f8:50",
     edificio: 5,
     piso: 2,
     nextEdificio: "exit",
@@ -1601,7 +1601,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N2-Oficina-18",
-    bssid: "84:b8:02:ed:ca:d0",
+    bssid: "84:b8:2:ed:ca:d0",
     edificio: 5,
     piso: 2,
     nextEdificio: "exit",
@@ -1617,7 +1617,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N2-Oficina-6-R",
-    bssid: "54:a2:74:0a:08:40",
+    bssid: "54:a2:74:a:8:40",
     edificio: 5,
     piso: 2,
     nextEdificio: "exit",
@@ -1665,7 +1665,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N3-5306",
-    bssid: "54:a2:74:09:e9:00",
+    bssid: "54:a2:74:9:e9:0",
     edificio: 5,
     piso: 3,
     nextEdificio: 5,
@@ -1689,7 +1689,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N3-Auditorio-1-A",
-    bssid: "f0:7f:06:9c:c9:10",
+    bssid: "f0:7f:6:9c:c9:10",
     edificio: 5,
     piso: 3,
     nextEdificio: 5,
@@ -1697,7 +1697,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N3-Auditorio-1-F",
-    bssid: "54:a2:74:08:49:80",
+    bssid: "54:a2:74:8:49:80",
     edificio: 5,
     piso: 3,
     nextEdificio: 5,
@@ -1705,7 +1705,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N3-Balcon",
-    bssid: "54:a2:74:03:26:20",
+    bssid: "54:a2:74:3:26:20",
     edificio: 5,
     piso: 3,
     nextEdificio: 5,
@@ -1713,7 +1713,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N3-SalaEstudio",
-    bssid: "54:a2:74:0a:08:d0",
+    bssid: "54:a2:74:a:8:d0",
     edificio: 5,
     piso: 3,
     nextEdificio: 5,
@@ -1721,7 +1721,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N4-5402",
-    bssid: "54:a2:74:09:f0:60",
+    bssid: "54:a2:74:9:f0:60",
     edificio: 5,
     piso: 4,
     nextEdificio: 5,
@@ -1729,7 +1729,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N4-5405",
-    bssid: "54:a2:74:08:42:40",
+    bssid: "54:a2:74:8:42:40",
     edificio: 5,
     piso: 4,
     nextEdificio: 5,
@@ -1745,7 +1745,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N4-5408",
-    bssid: "54:a2:74:09:e7:f0",
+    bssid: "54:a2:74:9:e7:f0",
     edificio: 5,
     piso: 4,
     nextEdificio: 5,
@@ -1753,7 +1753,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N4-5411",
-    bssid: "54:a2:74:0f:e7:d0",
+    bssid: "54:a2:74:f:e7:d0",
     edificio: 5,
     piso: 4,
     nextEdificio: 5,
@@ -1761,7 +1761,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N4-Auditorio-2",
-    bssid: "54:a2:74:08:47:60",
+    bssid: "54:a2:74:8:47:60",
     edificio: 5,
     piso: 4,
     nextEdificio: 5,
@@ -1769,7 +1769,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N4-Balcon",
-    bssid: "54:a2:74:08:4c:90",
+    bssid: "54:a2:74:8:4c:90",
     edificio: 5,
     piso: 4,
     nextEdificio: 5,
@@ -1777,7 +1777,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N4-Oficinas",
-    bssid: "54:a2:74:04:88:30",
+    bssid: "54:a2:74:4:88:30",
     edificio: 5,
     piso: 4,
     nextEdificio: 5,
@@ -1785,7 +1785,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N5-5501",
-    bssid: "54:a2:74:04:8d:cf",
+    bssid: "54:a2:74:4:8d:cf",
     edificio: 5,
     piso: 5,
     nextEdificio: 5,
@@ -1793,7 +1793,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N5-5502",
-    bssid: "f0:7f:06:9a:3a:d0",
+    bssid: "f0:7f:6:9a:3a:d0",
     edificio: 5,
     piso: 5,
     nextEdificio: 5,
@@ -1801,7 +1801,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N5-5503",
-    bssid: "54:a2:74:03:2a:a0",
+    bssid: "54:a2:74:3:2a:a0",
     edificio: 5,
     piso: 5,
     nextEdificio: 5,
@@ -1817,7 +1817,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N5-Oficina-1bis",
-    bssid: "f0:7f:06:91:60:b0",
+    bssid: "f0:7f:6:91:60:b0",
     edificio: 5,
     piso: 5,
     nextEdificio: 5,
@@ -1825,7 +1825,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N5-Oficina-3",
-    bssid: "54:a2:74:08:42:30",
+    bssid: "54:a2:74:8:42:30",
     edificio: 5,
     piso: 5,
     nextEdificio: 5,
@@ -1833,7 +1833,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N5-Oficina-9",
-    bssid: "f0:7f:06:95:70:b0",
+    bssid: "f0:7f:6:95:70:b0",
     edificio: 5,
     piso: 5,
     nextEdificio: 5,
@@ -1841,7 +1841,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N5-SalaJuntas-B",
-    bssid: "54:a2:74:08:40:d0",
+    bssid: "54:a2:74:8:40:d0",
     edificio: 5,
     piso: 5,
     nextEdificio: 5,
@@ -1857,7 +1857,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N6-5602",
-    bssid: "54:a2:74:0a:08:b0",
+    bssid: "54:a2:74:a:8:b0",
     edificio: 5,
     piso: 6,
     nextEdificio: 5,
@@ -1865,7 +1865,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N6-FacultyLounge",
-    bssid: "54:a2:74:0a:08:20",
+    bssid: "54:a2:74:a:8:20",
     edificio: 5,
     piso: 6,
     nextEdificio: 5,
@@ -1897,7 +1897,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N6-Sala-7",
-    bssid: "54:a2:74:09:f7:70",
+    bssid: "54:a2:74:9:f7:70",
     edificio: 5,
     piso: 6,
     nextEdificio: 5,
@@ -1913,7 +1913,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N7-PlazaProfesional",
-    bssid: "54:a2:74:09:f8:40",
+    bssid: "54:a2:74:9:f8:40",
     edificio: 5,
     piso: 7,
     nextEdificio: 5,
@@ -1929,7 +1929,7 @@ export const dataTec = [
   },
   {
     nombre: "A5N7-WTC",
-    bssid: "54:a2:74:04:29:00",
+    bssid: "54:a2:74:4:29:0",
     edificio: 5,
     piso: 7,
     nextEdificio: 5,
